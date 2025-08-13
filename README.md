@@ -12,7 +12,7 @@ A modern web application for subscribing to daily AI news updates, built with a 
 
 ```
 younews/
-├── younews.html          # Main frontend application
+├── index.html          # Main frontend application
 ├── config.js             # API configuration
 ├── setup.sh              # Setup script
 ├── README.md             # This file
@@ -54,7 +54,7 @@ const config = {
 
 ### 3. Test the Application
 
-Open `younews.html` in your browser and test the subscription functionality.
+Open `index.html` in your browser and test the subscription functionality.
 
 ## 🔧 API Integration
 
@@ -92,7 +92,7 @@ The frontend now connects directly to your DynamoDB API:
 ## 🔍 Testing
 
 ### Test Subscription
-1. Open `younews.html`
+1. Open `index.html`
 2. Select topics (e.g., "AI", "Machine Learning")
 3. Enter your email
 4. Click "Subscribe"
@@ -131,7 +131,7 @@ curl -s "${BASE_URL}/topics/ai/emails"
 3. Backend will handle new topics dynamically
 
 ### Customizing the UI
-- Modify CSS variables in `younews.html` for theming
+- Modify CSS variables in `index.html` for theming
 - Update topic icons and descriptions in `config.js`
 - Add new sections or features as needed
 

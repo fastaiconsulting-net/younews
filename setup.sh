@@ -7,8 +7,8 @@ echo "🚀 YouNews Setup Script"
 echo "========================"
 
 # Check if we're in the right directory
-if [ ! -f "younews.html" ]; then
-    echo "❌ Error: younews.html not found in current directory"
+if [ ! -f "index.html" ]; then
+    echo "❌ Error: index.html not found in current directory"
     echo "Please run this script from the root of your YouNews project"
     exit 1
 fi
@@ -44,7 +44,7 @@ if [ -d "DynamoDB/infra" ]; then
             echo "✅ Configuration updated successfully!"
             echo ""
             echo "🎉 Setup complete! You can now:"
-            echo "1. Open younews.html in your browser"
+            echo "1. Open index.html in your browser"
             echo "2. Test the subscription functionality"
             echo "3. Check your DynamoDB tables for new subscriptions"
             
@@ -69,5 +69,5 @@ echo ""
 echo "📚 Next steps:"
 echo "1. Deploy your DynamoDB backend if not already done"
 echo "2. Update config.js with your API URL manually if needed"
-echo "3. Test the frontend by opening younews.html"
+echo "3. Test the frontend by opening index.html"
 echo "4. Check your DynamoDB tables for subscriptions"
