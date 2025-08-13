@@ -2,6 +2,8 @@
 .DS_Store
 venv/
 
+README.deployment.md
+
 lambda/
 add-user/
 
@@ -10,7 +12,10 @@ __pycache__/
 *.pyc
 .env
 
-DynamoDB/
-lambda/
-sns-request-topics/
-terraform/
+DynamoDB/**
+lambda/**
+# / matches only files/folders in the current directory
+# /** matches files/folders in the current directory and all subdirectories
+sns-request-topics/    # ignores only the sns-request-topics folder
+terraform/**           # ignores terraform folder and all its subdirectories/files
+engine/**             # ignores engine folder and all its subdirectories/files
