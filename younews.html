@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouNews - Daily AI News</title>
+    <link rel="icon" href="../flagstone/favicon.png" type="image/png">
+    <style>
+        /* Add JetBrains Mono font import at the top */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&display=swap');
+
+        :root {
+            --accent-purple: #8B5CF6;
+            --accent-blue: #3B82F6;
+            --accent-pink: #EC4899;
+            --bg-dark: #0D0D0D;
+            --bg-card: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --border-color: #2D2D2D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 4rem;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(13, 13, 13, 0.8) 100%);
+            position: relative;
+        }
+
+        .fastai-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--accent-purple);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .fastai-button:hover {
+            background-color: var(--accent-purple);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-purple);
+        }
+
+        .glitch-text {
+            font-size: 4rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', 'Fira Code', 'IBM Plex Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .news-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .news-section:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.1);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent-purple);
+            font-size: 1.1rem;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--accent-purple);
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-blue);
+            color: #fff;
+            box-shadow: 0 0 20px var(--accent-purple);
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .selected-topics {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 60px;
+        }
+
+        .topic-item {
+            display: inline-block;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 0.25rem;
+            font-size: 0.9rem;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .topic-item:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
+
+        .topic-item.selected {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: #000;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .topic-item.selected:hover {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+        }
+
+        .topic-remove {
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .topic-remove:hover {
+            background: rgba(239, 68, 68, 0.8);
+        }
+
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .topic-button {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 500;
+            user-select: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .topic-button:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .topic-button.selected {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: #000;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .topic-button.selected:hover {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+        }
+
+        .request-topic-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .request-topic-form textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .request-topic-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
+
+        .multi-select-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .multi-select-input {
+            background: var(--bg-dark);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 60px;
+            position: relative;
+        }
+
+        .multi-select-input:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+        }
+
+        .multi-select-input.focused {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+        }
+
+        .selected-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            flex: 1;
+            align-items: center;
+            min-height: 24px;
+        }
+
+        .placeholder {
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: #000;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+
+        .tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .tag-remove {
+            background: rgba(0, 0, 0, 0.3);
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-left: 0.3rem;
+        }
+
+        .tag-remove:hover {
+            background: rgba(239, 68, 68, 0.9);
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .multi-select-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dropdown-toggle {
+            background: transparent;
+            border: none;
+            color: var(--accent-purple);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .dropdown-toggle.rotated {
+            transform: rotate(180deg);
+        }
+
+        .multi-select-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            z-index: 1000;
+            max-height: 350px;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            animation: dropdownSlide 0.3s ease-out;
+        }
+
+        @keyframes dropdownSlide {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05));
+        }
+
+        .dropdown-search {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-search:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .select-all-label {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .select-all-label:hover {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent-purple);
+        }
+
+        .select-all-label input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-dark);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .select-all-label input[type="checkbox"]:checked {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        .select-all-label input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .select-all-label input[type="checkbox"]:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
+
+        .dropdown-options {
+            padding: 0.5rem;
+        }
+
+        .dropdown-option {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 0.2rem 0;
+        }
+
+        .dropdown-option:hover {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
+            transform: translateX(4px);
+        }
+
+        .dropdown-option input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 3px;
+            background: var(--bg-dark);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-option input[type="checkbox"]:checked {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        .dropdown-option input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .dropdown-option input[type="checkbox"]:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 8px rgba(139, 92, 246, 0.2);
+        }
+
+        .dropdown-option.selected {
+            color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .dropdown-option.hidden {
+            display: none;
+        }
+
+        /* Custom scrollbar for dropdown */
+        .multi-select-dropdown::-webkit-scrollbar {
+            width: 2px;
+        }
+
+        .multi-select-dropdown::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .multi-select-dropdown::-webkit-scrollbar-thumb {
+            background: rgba(139, 92, 246, 0.3);
+            border-radius: 2px;
+        }
+
+        .multi-select-dropdown::-webkit-scrollbar-thumb:hover {
+            background: rgba(139, 92, 246, 0.6);
+        }
+
+        .features {
+            margin: 3rem 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature h3 {
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .glitch-text {
+                font-size: 2.5rem;
+            }
+
+            .fastai-button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.7rem;
+            }
+
+            .news-section {
+                padding: 1.5rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="glitch-text">>YouNews</h1>
+            <p class="subtitle">📰 Get daily AI news curated for your interests. A FastAI product.</p>
+            <a href="https://fastaiconsulting.net" target="_blank" class="fastai-button">FastAI</a>
+        </header>
+
+        <section class="news-section">
+            <div class="section-header">
+                <h2>> Subscribe to Daily News_</h2>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">Select your topics and get AI news delivered to your inbox daily 📧</p>
+            </div>
+
+            <form id="subscribeForm">
+                <div class="form-group">
+                    <label for="topicSelect">🎯 Select Topics_</label>
+                    <div class="topics-grid" id="topicsGrid">
+                        <div class="topic-button" data-value="us-politics">🗽 US Politics</div>
+                        <div class="topic-button" data-value="global-politics">🌍 Global Politics</div>
+                        <div class="topic-button" data-value="economics">💰 Economics</div>
+                        <div class="topic-button" data-value="ai">🤖 AI</div>
+                        <div class="topic-button" data-value="machine-learning">🧠 Machine Learning</div>
+                        <div class="topic-button" data-value="technology">💻 Technology</div>
+                        <div class="topic-button" data-value="football">⚽ Football</div>
+                        <div class="topic-button" data-value="us-sports">🏈 US Sports</div>
+                        <div class="topic-button" data-value="trump">🇺🇸 Trump</div>
+                        <div class="topic-button" data-value="us-stocks">📈 US Stocks</div>
+                        <div class="topic-button" data-value="eurozone-stocks">📊 Eurozone Stocks</div>
+                        <div class="topic-button" data-value="south-african-stocks">🇿🇦 South African Stocks</div>
+                        <div class="topic-button" data-value="us-dollar">💵 US Dollar</div>
+                        <div class="topic-button" data-value="eu">🇪🇺 EU</div>
+                        <div class="topic-button" data-value="uk">🇬🇧 UK</div>
+                        <div class="topic-button" data-value="china">🇨🇳 China</div>
+                        <div class="topic-button" data-value="south-africa">🇿🇦 South Africa</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">💌 Email Address_</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                </div>
+
+                <div style="text-align: center;">
+                    <button type="submit" class="cta-button">📬 Subscribe to YouNews()</button>
+                </div>
+            </form>
+
+            <div id="subscribeMessage"></div>
+        </section>
+
+        <section class="news-section">
+            <div class="section-header">
+                <h2>> Request a New Topic_</h2>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">Don't see a topic you're interested in? Let us know what you'd like to read about! 💡 Not that currency updates will be added soon :).</p>
+            </div>
+
+            <form id="requestTopicForm" class="request-topic-form">
+                <div class="form-group">
+                    <label for="requestEmail">📧 Email Address_</label>
+                    <input type="email" id="requestEmail" name="email" required placeholder="your.email@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="topicRequest">💡 Topic Request_</label>
+                    <textarea id="topicRequest" name="topicRequest" required placeholder="Describe the AI topic you'd like us to cover in our daily news digest..."></textarea>
+                </div>
+
+                <button type="submit" class="cta-button">💡 Submit Topic Request()</button>
+            </form>
+
+            <div id="requestTopicMessage"></div>
+        </section>
+
+        <section class="news-section">
+            <div class="section-header">
+                <h2>> Unsubscribe_</h2>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">No longer interested? Unsubscribe from our daily digest 📭</p>
+            </div>
+
+            <form id="unsubscribeForm">
+                <div class="form-group">
+                    <label for="unsubscribeEmail">📧 Email Address_</label>
+                    <input type="email" id="unsubscribeEmail" name="email" required placeholder="your.email@example.com">
+                </div>
+
+                <button type="submit" class="cta-button">📭 Unsubscribe()</button>
+            </form>
+
+            <div id="unsubscribeMessage"></div>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <div class="feature-icon">📰</div>
+                <h3>> Curated Content_</h3>
+                <p>Hand-picked AI news from reliable sources, filtered for relevance and quality</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>> Daily Delivery_</h3>
+                <p>Fresh AI insights delivered to your inbox every morning at 9 AM</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <h3>> Personalized Topics_</h3>
+                <p>Choose your interests and get news tailored to your specific AI interests</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <h3>> Privacy First_</h3>
+                <p>Your email is only used for news delivery. Unsubscribe anytime with one click</p>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 YouNews by FastAI. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // API Configuration from config.js
+            const API_BASE_URL = window.YouNewsConfig.API_BASE_URL;
+            
+            // Track selected topics
+            let selectedTopicsList = [];
+
+            // Topic selection functionality
+            const topicButtons = document.querySelectorAll('.topic-button');
+            
+            console.log('Found topic buttons:', topicButtons.length);
+
+            // Handle topic button clicks
+            topicButtons.forEach((button, index) => {
+                console.log(`Setting up click listener for button ${index}:`, button.textContent);
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const value = this.getAttribute('data-value');
+                    const isSelected = this.classList.contains('selected');
+                    
+                    console.log('Button clicked:', value, 'isSelected:', isSelected);
+                    
+                    if (isSelected) {
+                        // Remove from selection
+                        this.classList.remove('selected');
+                        selectedTopicsList = selectedTopicsList.filter(topic => topic !== value);
+                    } else {
+                        // Add to selection
+                        this.classList.add('selected');
+                        if (!selectedTopicsList.includes(value)) {
+                            selectedTopicsList.push(value);
+                        }
+                    }
+                    
+                    // Add a brief visual feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                    
+                    console.log('Selected topics:', selectedTopicsList);
+                });
+            });
+
+            // Get topic text from value
+            function getTopicText(value) {
+                return window.YouNewsConfig.AVAILABLE_TOPICS[value] || value;
+            }
+
+            // API helper functions
+            async function apiCall(endpoint, method = 'GET', body = null) {
+                const url = `${API_BASE_URL}${endpoint}`;
+                const options = {
+                    method: method,
+                    mode: 'cors', // Explicitly set CORS mode
+                    credentials: 'omit', // Don't send cookies
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    }
+                };
+                
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+                
+                console.log(`Making API call to: ${url}`);
+                console.log('Request options:', options);
+                
+                try {
+                    const response = await fetch(url, options);
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        console.error('API Error Response:', errorData);
+                        throw new Error(errorData.detail || `HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log('API Response data:', data);
+                    return data;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    console.error('Error details:', {
+                        message: error.message,
+                        type: error.name,
+                        url: url,
+                        method: method,
+                        body: body
+                    });
+                    throw error;
+                }
+            }
+
+            // Handle subscribe form submission
+            document.getElementById('subscribeForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value;
+                
+                if (selectedTopicsList.length === 0) {
+                    showMessage('subscribeMessage', 'Please select at least one topic', 'error');
+                    return;
+                }
+                
+                try {
+                    // Create subscription with selected topics
+                    const result = await apiCall('/subscriptions', 'PUT', {
+                        email: email,
+                        topics: selectedTopicsList
+                    });
+
+                    showMessage('subscribeMessage', '🎉 Successfully subscribed to YouNews! You will receive daily updates on your selected topics.', 'success');
+                    e.target.reset();
+                    selectedTopicsList = [];
+                    
+                    // Reset topic button selections
+                    topicButtons.forEach(button => {
+                        button.classList.remove('selected');
+                    });
+                } catch (error) {
+                    console.error('Subscription Error:', error);
+                    showMessage('subscribeMessage', `❌ Error: ${error.message}`, 'error');
+                }
+            });
+
+            // Handle request topic form submission
+            document.getElementById('requestTopicForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('requestEmail').value;
+                const topicRequest = document.getElementById('topicRequest').value;
+                
+                try {
+                    // For topic requests, we'll still use a simple approach
+                    // You could extend your API to handle topic requests if needed
+                    showMessage('requestTopicMessage', '💡 Topic request submitted! We\'ll review your suggestion and may add it to our coverage. Thank you for your feedback!', 'success');
+                    e.target.reset();
+                } catch (error) {
+                    console.error('Topic Request Error:', error);
+                    showMessage('requestTopicMessage', '❌ Sorry, there was an error. Please try again later.', 'error');
+                }
+            });
+
+            // Handle unsubscribe form submission
+            document.getElementById('unsubscribeForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const email = document.getElementById('unsubscribeEmail').value;
+                
+                try {
+                    // Delete subscription
+                    const result = await apiCall(`/subscriptions/${encodeURIComponent(email)}`, 'DELETE');
+
+                    showMessage('unsubscribeMessage', '📭 Successfully unsubscribed from YouNews. You will no longer receive daily updates.', 'success');
+                    e.target.reset();
+                } catch (error) {
+                    console.error('Unsubscribe Error:', error);
+                    if (error.message.includes('404')) {
+                        showMessage('unsubscribeMessage', '📭 Email not found in our subscription list.', 'error');
+                    } else {
+                        showMessage('unsubscribeMessage', `❌ Error: ${error.message}`, 'error');
+                    }
+                }
+            });
+
+            function showMessage(elementId, message, type) {
+                const element = document.getElementById(elementId);
+                element.innerHTML = `<div class="${type === 'success' ? 'success-message' : 'error-message'}">${message}</div>`;
+                
+                // Clear message after 5 seconds
+                setTimeout(() => {
+                    element.innerHTML = '';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

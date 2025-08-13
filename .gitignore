@@ -1,0 +1,16 @@
+.env
+.DS_Store
+venv/
+
+lambda/
+add-user/
+
+.venv
+__pycache__/
+*.pyc
+.env
+
+DynamoDB/
+lambda/
+sns-request-topics/
+terraform/
