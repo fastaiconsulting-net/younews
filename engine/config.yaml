@@ -1,0 +1,25 @@
+topics:
+  - "Eurozone-USA relations"
+  - "Global News"
+  - "USA"
+  - "Global markets"
+  - "China"
+  - "Europe"
+  - "South Africa"
+  - "Global News"
+  - "Tech"
+  - "AI"
+  - "US, EU & SA Markets"
+  - "US, UK, Eurozon & SA Politics"
+
+model: "gpt-4.1-mini"
+
+output:
+  root: "reports"
+
+img:
+  generate_image: false
+  resolution: "news_article" #  "instagram_feed"
+
+s3:
+  bucket_name: "younews-reports"

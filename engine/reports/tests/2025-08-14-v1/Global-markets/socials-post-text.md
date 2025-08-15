@@ -1,0 +1,2 @@
+Dollar Dips, Bitcoin Hits New High, and Oil Rises on Geopolitical Risks — [Topic: Global markets]  
+The U.S. dollar fell to a two-week low amid expectations of Fed rate cuts, while Bitcoin surged to a record $123,675, fueled by easing outlooks and institutional interest. Asian markets showed mixed results with profit-taking in Japan and minor shifts elsewhere. Oil prices climbed modestly due to supply concerns linked to the U.S.-Russia summit, despite forecasts of increased global supply. #GlobalMarkets #Bitcoin #OilPrices 📈

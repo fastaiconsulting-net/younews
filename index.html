@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouNews - Daily AI News</title>
-    <link rel="icon" href="../flagstone/favicon.png" type="image/png">
+    <title>YouNews - Daily Global News</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png">
     <style>
-        /* Add JetBrains Mono font import at the top */
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&display=swap');
 
         :root {
@@ -34,7 +33,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
         }
@@ -90,18 +89,184 @@
             margin-top: 1rem;
         }
 
-        .news-section {
-            margin: 4rem 0;
+        .todays-news-section {
+            margin: 2rem 0 4rem 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .todays-news-header {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+
+        .todays-news-title {
+            color: #000;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .todays-news-subtitle {
+            color: rgba(0, 0, 0, 0.8);
+            font-size: 1rem;
+        }
+
+        .todays-news-content {
             padding: 2rem;
+            min-height: 400px;
+        }
+
+        .todays-news-iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+            background: var(--bg-dark);
+        }
+
+        .todays-news-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin: 4rem 0;
+            padding: 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05));
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .subscribe-form {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            transition: all 0.3s ease;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
         }
 
-        .news-section:hover {
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent-purple);
+            font-size: 1.1rem;
+            text-align: left;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .form-group input:focus {
+            outline: none;
             border-color: var(--accent-purple);
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .benefits-section {
+            margin: 4rem 0;
         }
 
         .section-header {
@@ -118,542 +283,125 @@
             margin-bottom: 1rem;
         }
 
-        .form-group {
-            margin-bottom: 2rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--accent-purple);
-            font-size: 1.1rem;
-        }
-
-        .form-group select,
-        .form-group input {
-            width: 100%;
-            padding: 1rem;
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-        }
-
-        .form-group select:focus,
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background-color: var(--accent-purple);
-            color: #000;
-            text-decoration: none;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 1rem;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .cta-button:hover {
-            background-color: var(--accent-blue);
-            color: #fff;
-            box-shadow: 0 0 20px var(--accent-purple);
-        }
-
-        .success-message {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid #22c55e;
-            color: #22c55e;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            color: #ef4444;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .selected-topics {
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            min-height: 60px;
-        }
-
-        .topic-item {
-            display: inline-block;
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            margin: 0.25rem;
-            font-size: 0.9rem;
-            position: relative;
-            transition: all 0.3s ease;
-            border: 2px solid var(--border-color);
-            cursor: pointer;
-        }
-
-        .topic-item:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
-        }
-
-        .topic-item.selected {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
-            color: #000;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
-        }
-
-        .topic-item.selected:hover {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            color: #fff;
-        }
-
-        .topic-remove {
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            margin-left: 0.5rem;
-            cursor: pointer;
-            font-size: 0.8rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .topic-remove:hover {
-            background: rgba(239, 68, 68, 0.8);
-        }
-
-        .topics-grid {
+        .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
         }
 
-        .topic-button {
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            padding: 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-size: 0.95rem;
-            font-weight: 500;
-            user-select: none;
-            position: relative;
-            z-index: 1;
-        }
-
-        .topic-button:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .topic-button.selected {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
-            color: #000;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-        }
-
-        .topic-button.selected:hover {
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            color: #fff;
-        }
-
-        .request-topic-form {
+        .benefit-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 2rem;
-            margin: 2rem 0;
-        }
-
-        .request-topic-form textarea {
-            width: 100%;
-            padding: 1rem;
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .request-topic-form textarea:focus {
-            outline: none;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
-        }
-
-        .multi-select-container {
-            position: relative;
-            width: 100%;
-        }
-
-        .multi-select-input {
-            background: var(--bg-dark);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-height: 60px;
-            position: relative;
-        }
-
-        .multi-select-input:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
-        }
-
-        .multi-select-input.focused {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
-        }
-
-        .selected-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            flex: 1;
-            align-items: center;
-            min-height: 24px;
-        }
-
-        .placeholder {
-            color: var(--text-secondary);
-            font-style: italic;
-            font-size: 0.95rem;
-        }
-
-        .tag {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
-            color: #000;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
-        }
-
-        .tag:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
-        }
-
-        .tag-remove {
-            background: rgba(0, 0, 0, 0.3);
-            color: #000;
-            border: none;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            margin-left: 0.3rem;
-        }
-
-        .tag-remove:hover {
-            background: rgba(239, 68, 68, 0.9);
-            color: #fff;
-            transform: scale(1.1);
-        }
-
-        .multi-select-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .dropdown-toggle {
-            background: transparent;
-            border: none;
-            color: var(--accent-purple);
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            padding: 0.5rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .dropdown-toggle:hover {
-            background: rgba(139, 92, 246, 0.1);
-            color: var(--accent-blue);
-        }
-
-        .dropdown-toggle.rotated {
-            transform: rotate(180deg);
-        }
-
-        .multi-select-dropdown {
-            position: absolute;
-            top: calc(100% + 8px);
-            left: 0;
-            right: 0;
-            background: var(--bg-card);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            z-index: 1000;
-            max-height: 350px;
-            overflow-y: auto;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            animation: dropdownSlide 0.3s ease-out;
-        }
-
-        @keyframes dropdownSlide {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .dropdown-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05));
-        }
-
-        .dropdown-search {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            background: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.95rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .dropdown-search:focus {
-            outline: none;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
-        }
-
-        .select-all-label {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
-        }
-
-        .select-all-label:hover {
-            background: rgba(139, 92, 246, 0.1);
-            color: var(--accent-purple);
-        }
-
-        .select-all-label input[type="checkbox"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid var(--border-color);
-            border-radius: 4px;
-            background: var(--bg-dark);
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .select-all-label input[type="checkbox"]:checked {
-            background: var(--accent-purple);
-            border-color: var(--accent-purple);
-        }
-
-        .select-all-label input[type="checkbox"]:checked::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #000;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .select-all-label input[type="checkbox"]:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
-        }
-
-        .dropdown-options {
-            padding: 0.5rem;
-        }
-
-        .dropdown-option {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.8rem 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            margin: 0.2rem 0;
-        }
-
-        .dropdown-option:hover {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(236, 72, 153, 0.1));
-            transform: translateX(4px);
-        }
-
-        .dropdown-option input[type="checkbox"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border: 2px solid var(--border-color);
-            border-radius: 3px;
-            background: var(--bg-dark);
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .dropdown-option input[type="checkbox"]:checked {
-            background: var(--accent-purple);
-            border-color: var(--accent-purple);
-        }
-
-        .dropdown-option input[type="checkbox"]:checked::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #000;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .dropdown-option input[type="checkbox"]:hover {
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 8px rgba(139, 92, 246, 0.2);
-        }
-
-        .dropdown-option.selected {
-            color: var(--accent-purple);
-            background: rgba(139, 92, 246, 0.1);
-        }
-
-        .dropdown-option.hidden {
-            display: none;
-        }
-
-        /* Custom scrollbar for dropdown */
-        .multi-select-dropdown::-webkit-scrollbar {
-            width: 2px;
-        }
-
-        .multi-select-dropdown::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .multi-select-dropdown::-webkit-scrollbar-thumb {
-            background: rgba(139, 92, 246, 0.3);
-            border-radius: 2px;
-        }
-
-        .multi-select-dropdown::-webkit-scrollbar-thumb:hover {
-            background: rgba(139, 92, 246, 0.6);
-        }
-
-        .features {
-            margin: 3rem 0;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 1.5rem;
             text-align: center;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .feature:hover {
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-pink));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
             border-color: var(--accent-purple);
             box-shadow: 0 0 30px rgba(139, 92, 246, 0.1);
+            transform: translateY(-5px);
         }
 
-        .feature-icon {
+        .benefit-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .benefit-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
         }
 
-        .feature h3 {
+        .benefit-card h3 {
             color: var(--accent-purple);
             margin-bottom: 1rem;
             font-size: 1.3rem;
         }
 
-        .feature p {
+        .benefit-card p {
             color: var(--text-secondary);
             font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .articles-section {
+            margin: 4rem 0;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .article-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .article-card:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .article-date {
+            color: var(--accent-purple);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-title {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .article-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .unsubscribe-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .unsubscribe-section h3 {
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+        }
+
+        .unsubscribe-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
         }
 
         footer {
@@ -661,6 +409,7 @@
             padding: 2rem 0;
             margin-top: 4rem;
             border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
         }
 
         @media (max-width: 768px) {
@@ -672,22 +421,37 @@
                 font-size: 2.5rem;
             }
 
-            .fastai-button {
-                padding: 0.4rem 0.8rem;
-                font-size: 0.7rem;
+            .todays-news-section {
+                margin: 1rem 0 2rem 0;
             }
 
-            .news-section {
-                padding: 1.5rem;
+            .todays-news-header {
+                padding: 1rem 1.5rem;
             }
 
-            .section-header h2 {
+            .todays-news-title {
+                font-size: 1.3rem;
+            }
+
+            .todays-news-content {
+                padding: 1rem;
+            }
+
+            .todays-news-iframe {
+                height: 400px;
+            }
+
+            .hero-title {
                 font-size: 2rem;
             }
 
-            .features {
+            .benefits-grid {
                 grid-template-columns: 1fr;
-                gap: 1rem;
+                gap: 1.5rem;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -696,115 +460,159 @@
     <div class="container">
         <header>
             <h1 class="glitch-text">>YouNews</h1>
-            <p class="subtitle">📰 Get daily AI news curated for your interests. A FastAI product.</p>
+            <p class="subtitle">📰 Daily global news curated for the modern world. A FastAI product.</p>
             <a href="https://fastaiconsulting.net" target="_blank" class="fastai-button">FastAI</a>
         </header>
 
-        <section class="news-section">
-            <div class="section-header">
-                <h2>> Subscribe to Daily News_</h2>
-                <p style="color: var(--text-secondary); margin-top: 1rem;">Select your topics and get AI news delivered to your inbox daily 📧</p>
+        <section class="todays-news-section">
+            <div class="todays-news-header">
+                <h2 class="todays-news-title">📰 Today's Featured Story</h2>
+                <p class="todays-news-subtitle">August 15, 2025</p>
             </div>
-
-            <form id="subscribeForm">
-                <div class="form-group">
-                    <label for="topicSelect">🎯 Select Topics_</label>
-                    <div class="topics-grid" id="topicsGrid">
-                        <div class="topic-button" data-value="us-politics">🗽 US Politics</div>
-                        <div class="topic-button" data-value="global-politics">🌍 Global Politics</div>
-                        <div class="topic-button" data-value="economics">💰 Economics</div>
-                        <div class="topic-button" data-value="ai">🤖 AI</div>
-                        <div class="topic-button" data-value="machine-learning">🧠 Machine Learning</div>
-                        <div class="topic-button" data-value="technology">💻 Technology</div>
-                        <div class="topic-button" data-value="football">⚽ Football</div>
-                        <div class="topic-button" data-value="us-sports">🏈 US Sports</div>
-                        <div class="topic-button" data-value="trump">🇺🇸 Trump</div>
-                        <div class="topic-button" data-value="us-stocks">📈 US Stocks</div>
-                        <div class="topic-button" data-value="eurozone-stocks">📊 Eurozone Stocks</div>
-                        <div class="topic-button" data-value="south-african-stocks">🇿🇦 South African Stocks</div>
-                        <div class="topic-button" data-value="us-dollar">💵 US Dollar</div>
-                        <div class="topic-button" data-value="eu">🇪🇺 EU</div>
-                        <div class="topic-button" data-value="uk">🇬🇧 UK</div>
-                        <div class="topic-button" data-value="china">🇨🇳 China</div>
-                        <div class="topic-button" data-value="south-africa">🇿🇦 South Africa</div>
+            <div class="todays-news-content">
+                <!-- Option 1: Embed an HTML page -->
+                <iframe 
+                    src="https://younews-reports.s3.eu-west-2.amazonaws.com/latest-news-report.html" 
+                    class="todays-news-iframe"
+                    title="Today's News Story">
+                </iframe>
+                
+                <!-- Option 2: Placeholder when no story is available -->
+                <!-- 
+                <div class="todays-news-placeholder">
+                    <div>
+                        <h3>No featured story available today</h3>
+                        <p>Check back tomorrow for the latest global news coverage</p>
                     </div>
                 </div>
+                -->
+            </div>
+        </section>
 
-                <div class="form-group">
-                    <label for="email">💌 Email Address_</label>
-                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
-                </div>
-
-                <div style="text-align: center;">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2 class="hero-title">> Get Daily Global News_</h2>
+                <p class="hero-description">
+                    Stay informed with our daily global news digest. Every morning at 9 AM, 
+                    receive carefully curated insights from around the world covering politics, 
+                    economics, technology, and major global events.
+                </p>
+                
+                <form id="subscribeForm" class="subscribe-form">
+                    <div class="form-group">
+                        <label for="email">📧 Email Address_</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    </div>
                     <button type="submit" class="cta-button">📬 Subscribe to YouNews()</button>
-                </div>
-            </form>
-
-            <div id="subscribeMessage"></div>
+                </form>
+                
+                <div id="subscribeMessage"></div>
+            </div>
         </section>
 
-        <section class="news-section">
+        <section class="benefits-section">
             <div class="section-header">
-                <h2>> Request a New Topic_</h2>
-                <p style="color: var(--text-secondary); margin-top: 1rem;">Don't see a topic you're interested in? Let us know what you'd like to read about! 💡 Not that currency updates will be added soon :).</p>
+                <h2>> Why Choose YouNews?_</h2>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">Join thousands of readers staying informed about global developments</p>
             </div>
 
-            <form id="requestTopicForm" class="request-topic-form">
-                <div class="form-group">
-                    <label for="requestEmail">📧 Email Address_</label>
-                    <input type="email" id="requestEmail" name="email" required placeholder="your.email@example.com">
-                </div>
-
-                <div class="form-group">
-                    <label for="topicRequest">💡 Topic Request_</label>
-                    <textarea id="topicRequest" name="topicRequest" required placeholder="Describe the AI topic you'd like us to cover in our daily news digest..."></textarea>
-                </div>
-
-                <button type="submit" class="cta-button">💡 Submit Topic Request()</button>
-            </form>
-
-            <div id="requestTopicMessage"></div>
+            <div class="benefits-grid">
+                                 <div class="benefit-card">
+                     <div class="benefit-icon">🎯</div>
+                     <h3>> Curated Quality_</h3>
+                     <p>Hand-picked articles from reliable sources, filtered for relevance and accuracy. No noise, just signal.</p>
+                 </div>
+                 
+                 <div class="benefit-card">
+                     <div class="benefit-icon">⚡</div>
+                     <h3>> Daily Delivery_</h3>
+                     <p>Fresh insights delivered to your inbox every morning at 9 AM. Never miss important global developments.</p>
+                 </div>
+                 
+                 <div class="benefit-card">
+                     <div class="benefit-icon">🧠</div>
+                     <h3>> Expert Analysis_</h3>
+                     <p>AI-powered summaries and expert commentary to help you understand complex global events quickly.</p>
+                 </div>
+                 
+                 <div class="benefit-card">
+                     <div class="benefit-icon">🔒</div>
+                     <h3>> Privacy First_</h3>
+                     <p>Your email is only used for news delivery. Unsubscribe anytime with one click. No tracking, no spam.</p>
+                 </div>
+                 
+                 <div class="benefit-card">
+                     <div class="benefit-icon">📱</div>
+                     <h3>> Mobile Optimized_</h3>
+                     <p>Read your daily digest on any device. Clean, responsive design that works perfectly on mobile.</p>
+                 </div>
+                 
+                 <div class="benefit-card">
+                     <div class="benefit-icon">🚀</div>
+                     <h3>> Stay Ahead_</h3>
+                     <p>Get early insights into global trends, political developments, and major events before they go mainstream.</p>
+                 </div>
+            </div>
         </section>
 
-        <section class="news-section">
+        <section class="articles-section">
             <div class="section-header">
-                <h2>> Unsubscribe_</h2>
-                <p style="color: var(--text-secondary); margin-top: 1rem;">No longer interested? Unsubscribe from our daily digest 📭</p>
+                <h2>> Recent Articles_</h2>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">Sample of our daily coverage</p>
             </div>
 
+            <div class="articles-grid">
+                                 <a href="#" class="article-card">
+                     <div class="article-date">January 15, 2025</div>
+                     <div class="article-title">Global Markets Rally as Fed Signals Potential Rate Cuts</div>
+                     <div class="article-excerpt">Major indices surge worldwide as Federal Reserve officials hint at possible interest rate reductions in the coming months.</div>
+                 </a>
+                 
+                 <a href="#" class="article-card">
+                     <div class="article-date">January 14, 2025</div>
+                     <div class="article-title">EU and China Reach New Trade Agreement</div>
+                     <div class="article-excerpt">Historic deal opens new markets and reduces tariffs between the world's largest trading blocs, boosting global economic prospects.</div>
+                 </a>
+                 
+                 <a href="#" class="article-card">
+                     <div class="article-date">January 13, 2025</div>
+                     <div class="article-title">Climate Summit: 195 Nations Commit to Enhanced Emissions Targets</div>
+                     <div class="article-excerpt">Global leaders agree to accelerate carbon reduction goals, with developed nations pledging increased funding for climate initiatives.</div>
+                 </a>
+                 
+                 <a href="#" class="article-card">
+                     <div class="article-date">January 12, 2025</div>
+                     <div class="article-title">Tech Giants Face New Global Privacy Regulations</div>
+                     <div class="article-excerpt">International coalition introduces unified data protection standards, affecting how companies handle user information worldwide.</div>
+                 </a>
+                 
+                 <a href="#" class="article-card">
+                     <div class="article-date">January 11, 2025</div>
+                     <div class="article-title">Space Race Intensifies: Multiple Nations Launch Mars Missions</div>
+                     <div class="article-excerpt">China, India, and private companies join the race to Mars, signaling a new era of international space exploration and competition.</div>
+                 </a>
+                 
+                 <a href="#" class="article-card">
+                     <div class="article-date">January 10, 2025</div>
+                     <div class="article-title">Global Supply Chain Recovery: Shipping Costs Return to Pre-Pandemic Levels</div>
+                     <div class="article-excerpt">International trade normalizes as major shipping routes reopen and container prices stabilize, easing inflation pressures worldwide.</div>
+                 </a>
+            </div>
+        </section>
+
+        <section class="unsubscribe-section">
+            <h3>> Need to Unsubscribe?_</h3>
+            <p>We understand that circumstances change. You can unsubscribe at any time with just one click.</p>
+            
             <form id="unsubscribeForm">
                 <div class="form-group">
                     <label for="unsubscribeEmail">📧 Email Address_</label>
                     <input type="email" id="unsubscribeEmail" name="email" required placeholder="your.email@example.com">
                 </div>
-
                 <button type="submit" class="cta-button">📭 Unsubscribe()</button>
             </form>
-
+            
             <div id="unsubscribeMessage"></div>
-        </section>
-
-        <section class="features">
-            <div class="feature">
-                <div class="feature-icon">📰</div>
-                <h3>> Curated Content_</h3>
-                <p>Hand-picked AI news from reliable sources, filtered for relevance and quality</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">⚡</div>
-                <h3>> Daily Delivery_</h3>
-                <p>Fresh AI insights delivered to your inbox every morning at 9 AM</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🎯</div>
-                <h3>> Personalized Topics_</h3>
-                <p>Choose your interests and get news tailored to your specific AI interests</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">🔒</div>
-                <h3>> Privacy First_</h3>
-                <p>Your email is only used for news delivery. Unsubscribe anytime with one click</p>
-            </div>
         </section>
 
         <footer>
@@ -818,60 +626,13 @@
             // API Configuration from config.js
             const API_BASE_URL = window.YouNewsConfig.API_BASE_URL;
             
-            // Track selected topics
-            let selectedTopicsList = [];
-
-            // Topic selection functionality
-            const topicButtons = document.querySelectorAll('.topic-button');
-            
-            console.log('Found topic buttons:', topicButtons.length);
-
-            // Handle topic button clicks
-            topicButtons.forEach((button, index) => {
-                console.log(`Setting up click listener for button ${index}:`, button.textContent);
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const value = this.getAttribute('data-value');
-                    const isSelected = this.classList.contains('selected');
-                    
-                    console.log('Button clicked:', value, 'isSelected:', isSelected);
-                    
-                    if (isSelected) {
-                        // Remove from selection
-                        this.classList.remove('selected');
-                        selectedTopicsList = selectedTopicsList.filter(topic => topic !== value);
-                    } else {
-                        // Add to selection
-                        this.classList.add('selected');
-                        if (!selectedTopicsList.includes(value)) {
-                            selectedTopicsList.push(value);
-                        }
-                    }
-                    
-                    // Add a brief visual feedback
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 150);
-                    
-                    console.log('Selected topics:', selectedTopicsList);
-                });
-            });
-
-            // Get topic text from value
-            function getTopicText(value) {
-                return window.YouNewsConfig.AVAILABLE_TOPICS[value] || value;
-            }
-
             // API helper functions
             async function apiCall(endpoint, method = 'GET', body = null) {
                 const url = `${API_BASE_URL}${endpoint}`;
                 const options = {
                     method: method,
-                    mode: 'cors', // Explicitly set CORS mode
-                    credentials: 'omit', // Don't send cookies
+                    mode: 'cors',
+                    credentials: 'omit',
                     headers: {
                         'Content-Type': 'application/json',
                         'Accept': 'application/json',
@@ -883,12 +644,10 @@
                 }
                 
                 console.log(`Making API call to: ${url}`);
-                console.log('Request options:', options);
                 
                 try {
                     const response = await fetch(url, options);
                     console.log('Response status:', response.status);
-                    console.log('Response headers:', response.headers);
                     
                     if (!response.ok) {
                         const errorData = await response.json().catch(() => ({}));
@@ -901,13 +660,6 @@
                     return data;
                 } catch (error) {
                     console.error('API Error:', error);
-                    console.error('Error details:', {
-                        message: error.message,
-                        type: error.name,
-                        url: url,
-                        method: method,
-                        body: body
-                    });
                     throw error;
                 }
             }
@@ -918,47 +670,18 @@
                 
                 const email = document.getElementById('email').value;
                 
-                if (selectedTopicsList.length === 0) {
-                    showMessage('subscribeMessage', 'Please select at least one topic', 'error');
-                    return;
-                }
-                
                 try {
-                    // Create subscription with selected topics
+                    // Create subscription
                     const result = await apiCall('/subscriptions', 'PUT', {
                         email: email,
-                        topics: selectedTopicsList
+                                                 topics: ['global-news'] // Default topic for all subscribers
                     });
 
-                    showMessage('subscribeMessage', '🎉 Successfully subscribed to YouNews! You will receive daily updates on your selected topics.', 'success');
+                    showMessage('subscribeMessage', '🎉 Successfully subscribed to YouNews! You will receive daily global news updates starting tomorrow at 9 AM.', 'success');
                     e.target.reset();
-                    selectedTopicsList = [];
-                    
-                    // Reset topic button selections
-                    topicButtons.forEach(button => {
-                        button.classList.remove('selected');
-                    });
                 } catch (error) {
                     console.error('Subscription Error:', error);
                     showMessage('subscribeMessage', `❌ Error: ${error.message}`, 'error');
-                }
-            });
-
-            // Handle request topic form submission
-            document.getElementById('requestTopicForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const email = document.getElementById('requestEmail').value;
-                const topicRequest = document.getElementById('topicRequest').value;
-                
-                try {
-                    // For topic requests, we'll still use a simple approach
-                    // You could extend your API to handle topic requests if needed
-                    showMessage('requestTopicMessage', '💡 Topic request submitted! We\'ll review your suggestion and may add it to our coverage. Thank you for your feedback!', 'success');
-                    e.target.reset();
-                } catch (error) {
-                    console.error('Topic Request Error:', error);
-                    showMessage('requestTopicMessage', '❌ Sorry, there was an error. Please try again later.', 'error');
                 }
             });
 

@@ -1,0 +1,3 @@
+South African Court Halts Offshore Oil Permit — [Topic: South Africa]  
+A South African court has annulled the environmental permit granted to TotalEnergies and Shell for offshore oil exploration in Block 5/6/7 due to inadequate assessment of socio-economic and climate impacts. TotalEnergies must now address these deficiencies before proceeding. This ruling highlights increased environmental scrutiny for energy projects in the region. 🌍  
+#SouthAfrica #EnvironmentalLaw #EnergySector

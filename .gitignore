@@ -3,15 +3,18 @@
 venv/
 
 README.deployment.md
+index.deprecated.html
 
 lambda/
 add-user/
+
 
 .venv
 __pycache__/
 *.pyc
 .env
 
+Legacy/**
 DynamoDB/**
 lambda/**
 # / matches only files/folders in the current directory
