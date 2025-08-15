@@ -1,0 +1,17 @@
+exclude:
+  - Engine/
+  - DynamoDB/
+  - Legacy/
+  - terraform/
+  - venv/
+  - "*.bak"
+  - setup.sh
+
+# Basic Jekyll configuration
+title: YouNews
+description: Daily global news curated for the modern world
+baseurl: ""
+url: ""
+
+# Build settings
+markdown: kramdown
