@@ -2,7 +2,7 @@ from younews_reporter.agentic.news_reporter import NewsReportAgent
 from younews_reporter.agentic.generate_socials_post_text import SocialsPostTextAgent
 from younews_reporter.agentic.generate_news_image import ImageGeneratorAgent
 from younews_reporter.agentic.generate_socials_post_text import SocialsPostTextAgent
-from younews_reporter.utils import setup_logger
+from younews_reporter.utils import setup_logger, upload_to_s3
 import os
 import yaml
 from datetime import datetime
@@ -29,12 +29,12 @@ def load_config():
 if __name__ == "__main__":
     TOPICS, MODEL, ROOT_DIR, GENERATE_IMAGE, RESOLUTION, BUCKET_NAME = load_config()
     # LOAD FILES
-    S3_root = f"{BUCKET_NAME}/2025:08:15-11:10:38/"
-    today = "2025:08:15-10:59:14"
-    SOCIALS_POST_TEXT_PATH = f"reports/{today}-socials-post-text.txt"
-    HTML_NEWS_REPORT_PATH = f"reports/{today}-news-report.html"
-    MARKDOWN_NEWS_REPORT_PATH = f"reports/{today}-news-report.md"
-    IMAGE_NEWS_REPORT_PATH = f"reports/{today}-news-image.png"    
+    S3_root = f"{BUCKET_NAME}/2025:08:19-14:32:12/"
+    today = "2025:08:19-14:32:12"
+    SOCIALS_POST_TEXT_PATH = f"reports/{today}/socials-post-text.txt"
+    HTML_NEWS_REPORT_PATH = f"reports/{today}/news-report.html"
+    MARKDOWN_NEWS_REPORT_PATH = f"reports/{today}/news-report.md"
+    IMAGE_NEWS_REPORT_PATH = f"reports/{today}/news-image.png"    
 
     # file names
     socials_post_text_name = "socials-post-text.txt"
@@ -48,7 +48,6 @@ if __name__ == "__main__":
         aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
         aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
         region_name=os.getenv('AWS_REGION'))
-
 
     # load files
     # with open(SOCIALS_POST_TEXT_PATH, 'r') as f:
@@ -78,8 +77,8 @@ if __name__ == "__main__":
         markdown_news_report=MARKDOWN_NEWS_REPORT_PATH,
         socials_post_text=SOCIALS_POST_TEXT_PATH,
         html_news_report=HTML_NEWS_REPORT_PATH,
-        image_news_report=IMAGE_NEWS_REPORT_PATH)
+        image_news_report=IMAGE_NEWS_REPORT_PATH,
+        s3_bucket_name=BUCKET_NAME)
 
     logger.info(f"> Uploaded reports to s3://{BUCKET_NAME}")
-
     # open image

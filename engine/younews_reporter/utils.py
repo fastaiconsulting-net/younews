@@ -1,9 +1,28 @@
 import logging
 import yaml
 from datetime import datetime
-
+import os
 import boto3
 import base64
+
+
+def extract_main_title(markdown_content: str):
+    """
+    Extract the main title from markdown content.
+    The main title is typically the first line that starts with # or ** and ends with **
+    """
+    lines = markdown_content.strip().split('\n')
+    for line in lines:
+        line = line.strip()
+        # Check for markdown heading (# Title)
+        if line.startswith('# '):
+            # Remove the # and return the title
+            return line[2:]
+        # Check for bold markdown (**Title**)
+        elif line.startswith('**') and line.endswith('**'):
+            # Remove the ** markers and return the title
+            return line[2:-2]
+    return "YouNews Report"  # Fallback title
 
 
 def setup_logger(name: str):
@@ -34,9 +53,11 @@ def files_names(
     s3_bucket_name: str,
     generate_image: bool = False):
     today = datetime.now().strftime("%Y:%m:%d-%H:%M:%S")
-    markdown_news_report_path = f"{root_dir}/{today}-news-report.md"
-    html_news_report_path = f"{root_dir}/{today}-news-report.html"
-    socials_post_text_path = f"{root_dir}/{today}-socials-post-text.txt"
+    base = f"{root_dir}/{today}"
+    os.makedirs(base, exist_ok=True)
+    markdown_news_report_path = f"{base}/news-report.md"
+    html_news_report_path = f"{base}/news-report.html"
+    socials_post_text_path = f"{base}/socials-post-text.txt"
     image_news_report_path = None
     image_reference_path = None
     image_s3_url = None
@@ -47,12 +68,13 @@ def files_names(
     else:
         image_news_report_path = None
         image_reference_path = None
-    return today, markdown_news_report_path, html_news_report_path, socials_post_text_path, image_news_report_path, image_reference_path, image_s3_url
+    return today, base, markdown_news_report_path, html_news_report_path, socials_post_text_path, image_news_report_path, image_reference_path, image_s3_url
 
 
 def upload_to_s3(
     s3_client: boto3.client,
     today: str,
+    main_title_path: str,
     markdown_news_report: str,
     html_news_report: str,
     image_news_report: str,
@@ -68,6 +90,13 @@ def upload_to_s3(
     src: https://boto3.amazonaws.com/v1/documentation/api/latest/guide/s3-uploading-files.html
     """
 
+    # save main title to file
+    s3_client.upload_file(
+        main_title_path,
+        s3_bucket_name,
+        f"{today}/main_title.txt"
+    )
+
     # Upload markdown report (private)
     s3_client.upload_file(markdown_news_report, s3_bucket_name, f"{today}/news-report.md")
     
@@ -80,19 +109,18 @@ def upload_to_s3(
     )
 
     # overwrite <Todays> news
-    s3_client.upload_file(
-        html_news_report,
-        s3_bucket_name,
-        f"latest-news-report.html",
-        ExtraArgs={'ContentType': 'text/html'}
-    )
+    # s3_client.upload_file(
+    #     html_news_report,
+    #     s3_bucket_name,
+    #     "latest-news-report.html",
+    #     ExtraArgs={'ContentType': 'text/html'}
+    # )
 
-    
     # Upload image with public read access (if exists)
     if image_news_report:
         s3_client.upload_file(
-            image_news_report, 
-            s3_bucket_name, 
+            image_news_report,
+            s3_bucket_name,
             f"{today}/news-image.png",
             ExtraArgs={'ContentType': 'image/png'}
         )
@@ -115,7 +143,7 @@ def save_locally(
     local_html: str,
     logger: logging.Logger = None
 ):
-    
+
     if logger is None:
         logger = setup_logger("younews-reporter")
 

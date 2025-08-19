@@ -1,2 +1,0 @@
-Fed Signals Rate Cuts, Bitcoin Hits Record, Yen Strengthens — [Topic: Global News]  
-The U.S. Federal Reserve’s hint at potential rate cuts has weakened the dollar, while the Japanese yen climbs to a three-week high amid possible BoJ rate hikes. Bitcoin soars to an all-time high of $124,480.82, driven by optimism around monetary easing and financial reforms. These shifts are reshaping global markets and monetary policies. 📈 #globalnews #forex #bitcoin

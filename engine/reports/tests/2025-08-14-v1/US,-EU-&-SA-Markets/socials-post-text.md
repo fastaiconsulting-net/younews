@@ -1,2 +1,0 @@
-European Markets Rise as UK Economy Exceeds Expectations — [Topic: US, EU & SA Markets]  
-European markets open higher amid optimism around the US-EU trade deal, with the Stoxx 600 up 0.2%. The UK economy grew 0.3% in Q2, surpassing forecasts, while Carlsberg reported a slight Q2 sales miss but raised its 2025 profit outlook. Positive signals for market confidence and economic resilience. 📈 #us #eumarkets #breakingnews

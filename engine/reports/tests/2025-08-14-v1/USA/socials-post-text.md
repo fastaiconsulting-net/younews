@@ -1,2 +1,0 @@
-Trump warns Russia of severe consequences, seeks National Guard extension, Alaska faces evacuation — [Topic: USA]  
-President Trump warns of severe consequences if Russia does not cease the Ukraine war, following talks with Zelenskyy. He also plans to request Congress to extend the National Guard’s presence in Washington, D.C., to combat crime amid a 35% drop in violent crime last year. Meanwhile, Juneau, Alaska, orders evacuations as flooding risk rises from the Mendenhall Glacier. #USA #BreakingNews #ClimateEmergency 🌍

@@ -2,25 +2,7 @@
 import markdown
 import os
 
-
-
-def extract_main_title(markdown_content):
-    """
-    Extract the main title from markdown content.
-    The main title is typically the first line that starts with # or ** and ends with **
-    """
-    lines = markdown_content.strip().split('\n')
-    for line in lines:
-        line = line.strip()
-        # Check for markdown heading (# Title)
-        if line.startswith('# '):
-            # Remove the # and return the title
-            return line[2:]
-        # Check for bold markdown (**Title**)
-        elif line.startswith('**') and line.endswith('**'):
-            # Remove the ** markers and return the title
-            return line[2:-2]
-    return "YouNews Report"  # Fallback title
+from younews_reporter.utils import extract_main_title
 
 
 def apply_younews_styling(html_content, title="YouNews Report", image_path=None):
@@ -95,7 +77,7 @@ def apply_younews_styling(html_content, title="YouNews Report", image_path=None)
 def convert_md_to_html(
     md_file_path: str = None,
     markdown_content: str = None,
-    secondary_title: str = "> YOUNEWS DAILY REPORT", 
+    secondary_title: str = "> YOUNEWS DAILY REPORT",
     image_path_to_embed: str = None,
 ):
     
