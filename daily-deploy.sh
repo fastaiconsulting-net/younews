@@ -22,6 +22,7 @@ python generate_html/generate_html.py
 # cd ..
 # open index.html
 
+cd ..
 echo "🔄 Pushing to github..."
 git add .
 git commit -m "Daily deployment $(date +%Y:%m:%d-%H:%M:%S)"
