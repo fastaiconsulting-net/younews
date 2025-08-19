@@ -4,7 +4,7 @@
 const config = {
     // Replace this with your actual API URL from terraform output
     // Run: cd DynamoDB/infra && terraform output -raw api_base_url
-    API_BASE_URL: 'https://oorqz471eg.execute-api.eu-west-2.amazonaws.com',
+    API_BASE_URL: 'https://8a17q933pb.execute-api.eu-west-2.amazonaws.com',
     
     // Available topics for the frontend
     AVAILABLE_TOPICS: {

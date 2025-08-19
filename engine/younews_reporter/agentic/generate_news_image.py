@@ -21,7 +21,7 @@ class ImageGeneratorAgent(AgenticBase):
         Resolution: {resolution}
         """
 
-    def run(self, news_report: str, image_path: str, resolution: str):
+    def run(self, news_report: str, resolution: str):
         prompt = self.generate_prompt(news_report, resolution)
         response = self.client.responses.create(
             model=self.model,

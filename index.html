@@ -653,10 +653,9 @@
                 const email = document.getElementById('email').value;
                 
                 try {
-                    // Create subscription
-                    const result = await apiCall('/subscriptions', 'PUT', {
-                        email: email,
-                                                 topics: ['global-news'] // Default topic for all subscribers
+                    // Create subscription using the correct endpoint
+                    const result = await apiCall('/subscriptions/subscribe', 'POST', {
+                        email: email
                     });
 
                     showMessage('subscribeMessage', '🎉 Successfully subscribed to YouNews! You will receive daily global news updates starting tomorrow at 9 AM.', 'success');
@@ -674,8 +673,10 @@
                 const email = document.getElementById('unsubscribeEmail').value;
                 
                 try {
-                    // Delete subscription
-                    const result = await apiCall(`/subscriptions/${encodeURIComponent(email)}`, 'DELETE');
+                    // Use the correct unsubscribe endpoint
+                    const result = await apiCall('/subscriptions/unsubscribe', 'POST', {
+                        email: email
+                    });
 
                     showMessage('unsubscribeMessage', '📭 Successfully unsubscribed from YouNews. You will no longer receive daily updates.', 'success');
                     e.target.reset();

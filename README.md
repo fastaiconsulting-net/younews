@@ -11,7 +11,6 @@ Built with ❤️ by [FastAI Consulting](https://fastaiconsulting.net) 🚀
 
 
 
-
 # Code Style
 
 Code for this repository is checked using [pre-commit](https://pre-commit.com/).
