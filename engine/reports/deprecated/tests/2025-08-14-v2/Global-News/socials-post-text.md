@@ -1,0 +1,2 @@
+Global Developments Unfold — [Topic: Global News]
+U.S. President Trump warns Russia of severe consequences without a Ukraine ceasefire, intensifying geopolitical tensions. South Korea’s former first lady Kim Keon Hee is arrested on corruption charges, spotlighting legal scrutiny in politics. Meanwhile, Juneau, Alaska faces evacuation orders due to an imminent flood threat from the Mendenhall Glacier, underscoring climate change impacts. 🌍 #globalnews #breakingnews #climateaction

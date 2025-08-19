@@ -1,0 +1,2 @@
+China Faces Key Challenges: Bond Default, Storm, and Trade Talks — [Topic: China]  
+Road King Infrastructure has defaulted on $22.62M in offshore bonds amid China’s property crisis. Meanwhile, Tropical Storm Podul made landfall in southern China, triggering evacuations of 15,000 residents and disruptions in Guangdong and Hong Kong. In positive developments, China and India are discussing resuming border trade after a five-year pause, signaling potential economic cooperation. #china #breakingnews #economy 🌏

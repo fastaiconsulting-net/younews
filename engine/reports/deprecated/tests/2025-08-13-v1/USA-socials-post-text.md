@@ -1,0 +1,2 @@
+Trump Federalizes D.C. Police Amid Crisis; Alaska Faces Flooding — [Topic: USA]  
+President Trump has federalized the Washington, D.C. police force and deployed 800 National Guard troops citing a crime emergency, sparking criticism from local leadership. Meanwhile, a glacial outburst in Alaska’s Suicide Basin is causing major flooding in Mendenhall Lake and River, leading to evacuation recommendations as climate-driven impacts escalate. #usa #breakingnews #climatechange 🌍

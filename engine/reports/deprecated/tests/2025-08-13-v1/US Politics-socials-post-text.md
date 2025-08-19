@@ -1,0 +1,2 @@
+US-Russia Summit Preparations Underway — [Topic: US Politics]  
+European leaders engage with President Trump ahead of the August 15 summit with Putin, emphasizing Ukraine’s sovereignty as urged by the EU. Meanwhile, approximately 800 National Guard troops are deployed in Washington, D.C., following a federal takeover of the city’s police department, raising concerns about federal intervention in local law enforcement. #USPolitics #BreakingNews #Ukraine 🇺🇸

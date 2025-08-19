@@ -1,0 +1,2 @@
+Europe Faces Escalating Challenges — [Topic: Europe]  
+Ukrainian President Zelenskyy met UK Prime Minister Starmer in London ahead of the crucial US-Russia summit in Alaska, underscoring UK support amid ongoing conflict concerns. Meanwhile, Europe battles intense wildfires across Southern regions fueled by a record-breaking heatwave, leading to thousands evacuated and widespread damage. Estonia has also expelled a Russian diplomat over subversion allegations, highlighting rising regional tensions. #Europe #BreakingNews #ClimateCrisis 🌍
