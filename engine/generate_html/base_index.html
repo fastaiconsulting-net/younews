@@ -604,8 +604,22 @@
 
     <script src="../config.js"></script>
     <script>
+        console.log('=== SCRIPT STARTED ===');
+        
+        // Test if config is available
+        console.log('Config available:', typeof window.YouNewsConfig !== 'undefined');
+        if (window.YouNewsConfig) {
+            console.log('API URL:', window.YouNewsConfig.API_BASE_URL);
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, setting up forms...');
+            console.log('=== DOM LOADED ===');
+            console.log('Setting up forms...');
+            
+            // Add a visible test to see if JavaScript is running
+            const testDiv = document.createElement('div');
+            testDiv.innerHTML = '<p style="background: red; color: white; padding: 10px; margin: 10px;">🧪 JAVASCRIPT IS RUNNING - If you see this, JS works!</p>';
+            document.body.appendChild(testDiv);
             
             // Check if config is loaded
             if (!window.YouNewsConfig) {
@@ -888,6 +902,7 @@
             
             // Subscribe form
             const subscribeForm = document.getElementById('subscribeForm');
+            console.log('Subscribe form element:', subscribeForm);
             if (subscribeForm) {
                 console.log('Subscribe form found, adding listener');
                 subscribeForm.addEventListener('submit', handleSubscribe);
@@ -897,6 +912,7 @@
             
             // Unsubscribe form
             const unsubscribeForm = document.getElementById('unsubscribeForm');
+            console.log('Unsubscribe form element:', unsubscribeForm);
             if (unsubscribeForm) {
                 console.log('Unsubscribe form found, adding listener');
                 unsubscribeForm.addEventListener('submit', handleUnsubscribe);
