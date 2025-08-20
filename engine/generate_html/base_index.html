@@ -608,6 +608,34 @@
             // API Configuration from config.js
             const API_BASE_URL = window.YouNewsConfig.API_BASE_URL;
             
+            // Email validation function
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+            
+            // Real-time email validation
+            function setupEmailValidation() {
+                const subscribeEmail = document.getElementById('email');
+                const unsubscribeEmail = document.getElementById('unsubscribeEmail');
+                
+                [subscribeEmail, unsubscribeEmail].forEach(input => {
+                    if (input) {
+                        input.addEventListener('input', function() {
+                            const email = this.value.trim();
+                            if (email && !isValidEmail(email)) {
+                                this.style.borderColor = '#ef4444';
+                            } else {
+                                this.style.borderColor = '';
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // Initialize email validation
+            setupEmailValidation();
+            
             // API helper functions
             async function apiCall(endpoint, method = 'GET', body = null) {
                 const url = `${API_BASE_URL}${endpoint}`;
@@ -650,7 +678,24 @@
             document.getElementById('subscribeForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                const email = document.getElementById('email').value;
+                // Prevent duplicate submissions
+                if (e.target.dataset.submitting === 'true') {
+                    return;
+                }
+                
+                const email = document.getElementById('email').value.trim();
+                const submitButton = e.target.querySelector('button[type="submit"]');
+                
+                // Basic email validation
+                if (!email || !isValidEmail(email)) {
+                    showMessage('subscribeMessage', '❌ Please enter a valid email address.', 'error');
+                    return;
+                }
+                
+                // Disable button and show loading state
+                e.target.dataset.submitting = 'true';
+                submitButton.disabled = true;
+                submitButton.textContent = '📬 Subscribing...';
                 
                 try {
                     // Create subscription using the correct endpoint
@@ -658,11 +703,28 @@
                         email: email
                     });
 
-                    showMessage('subscribeMessage', '🎉 Successfully subscribed to YouNews! You will receive daily global news updates starting tomorrow at 9 AM.', 'success');
-                    e.target.reset();
+                    if (result.success) {
+                        showMessage('subscribeMessage', '🎉 Successfully subscribed to YouNews! Please check your email for a confirmation link to complete your subscription.', 'success');
+                        e.target.reset();
+                    } else {
+                        showMessage('subscribeMessage', `❌ Error: ${result.message || 'Subscription failed'}`, 'error');
+                    }
                 } catch (error) {
                     console.error('Subscription Error:', error);
-                    showMessage('subscribeMessage', `❌ Error: ${error.message}`, 'error');
+                    
+                    // Handle specific error cases
+                    if (error.message.includes('already subscribed') || error.message.includes('already exists')) {
+                        showMessage('subscribeMessage', '📧 This email is already subscribed to YouNews!', 'error');
+                    } else if (error.message.includes('invalid email')) {
+                        showMessage('subscribeMessage', '❌ Please enter a valid email address.', 'error');
+                    } else {
+                        showMessage('subscribeMessage', `❌ Error: ${error.message}`, 'error');
+                    }
+                } finally {
+                    // Re-enable button
+                    e.target.dataset.submitting = 'false';
+                    submitButton.disabled = false;
+                    submitButton.textContent = '📬 Subscribe to YouNews()';
                 }
             });
 
@@ -670,7 +732,24 @@
             document.getElementById('unsubscribeForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                const email = document.getElementById('unsubscribeEmail').value;
+                // Prevent duplicate submissions
+                if (e.target.dataset.submitting === 'true') {
+                    return;
+                }
+                
+                const email = document.getElementById('unsubscribeEmail').value.trim();
+                const submitButton = e.target.querySelector('button[type="submit"]');
+                
+                // Basic email validation
+                if (!email || !isValidEmail(email)) {
+                    showMessage('unsubscribeMessage', '❌ Please enter a valid email address.', 'error');
+                    return;
+                }
+                
+                // Disable button and show loading state
+                e.target.dataset.submitting = 'true';
+                submitButton.disabled = true;
+                submitButton.textContent = '📭 Unsubscribing...';
                 
                 try {
                     // First, get the subscription ARN for the email
@@ -686,15 +765,24 @@
                         subscription_arn: subscription.subscription_arn
                     });
 
-                    showMessage('unsubscribeMessage', '📭 Successfully unsubscribed from YouNews. You will no longer receive daily updates.', 'success');
-                    e.target.reset();
+                    if (result.success) {
+                        showMessage('unsubscribeMessage', '📭 Successfully unsubscribed from YouNews. You will no longer receive daily updates.', 'success');
+                        e.target.reset();
+                    } else {
+                        showMessage('unsubscribeMessage', `❌ Error: ${result.message || 'Unsubscribe failed'}`, 'error');
+                    }
                 } catch (error) {
                     console.error('Unsubscribe Error:', error);
-                    if (error.message.includes('404')) {
+                    if (error.message.includes('404') || error.message.includes('not found')) {
                         showMessage('unsubscribeMessage', '📭 Email not found in our subscription list.', 'error');
                     } else {
                         showMessage('unsubscribeMessage', `❌ Error: ${error.message}`, 'error');
                     }
+                } finally {
+                    // Re-enable button
+                    e.target.dataset.submitting = 'false';
+                    submitButton.disabled = false;
+                    submitButton.textContent = '📭 Unsubscribe()';
                 }
             });
 
