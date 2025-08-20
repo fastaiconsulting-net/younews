@@ -29,8 +29,8 @@ git add .
 git commit -m "Daily deployment $(date +%Y:%m:%d-%H:%M:%S)"
 git push
 
-echo "🔗 Open site in browser..."
-open https://fastaiconsulting-net.github.io/younews/
+# echo "🔗 Open site in browser..."
+# open https://fastaiconsulting-net.github.io/younews/
 
 
 # Deactivate virtual environment
