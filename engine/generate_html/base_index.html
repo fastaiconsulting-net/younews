@@ -602,7 +602,7 @@
         </footer>
     </div>
 
-    <script src="./config.js"></script>
+    <script src="../../config.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, setting up forms...');
@@ -639,6 +639,34 @@
                     showMessage('unsubscribeMessage', '🧪 Test message - if you see this, message display is working!', 'error');
                 }, 1000);
             }, 2000);
+            
+            // Add test buttons for debugging
+            setTimeout(() => {
+                const subscribeForm = document.getElementById('subscribeForm');
+                const unsubscribeForm = document.getElementById('unsubscribeForm');
+                
+                if (subscribeForm) {
+                    const testButton = document.createElement('button');
+                    testButton.textContent = '🧪 TEST SUBSCRIBE MESSAGE';
+                    testButton.style.cssText = 'background: red; color: white; padding: 10px; margin: 10px; border: none; border-radius: 5px; cursor: pointer;';
+                    testButton.onclick = () => {
+                        console.log('Test button clicked!');
+                        showMessage('subscribeMessage', '🧪 TEST MESSAGE - This should appear!', 'success');
+                    };
+                    subscribeForm.appendChild(testButton);
+                }
+                
+                if (unsubscribeForm) {
+                    const testButton2 = document.createElement('button');
+                    testButton2.textContent = '🧪 TEST UNSUBSCRIBE MESSAGE';
+                    testButton2.style.cssText = 'background: red; color: white; padding: 10px; margin: 10px; border: none; border-radius: 5px; cursor: pointer;';
+                    testButton2.onclick = () => {
+                        console.log('Test button 2 clicked!');
+                        showMessage('unsubscribeMessage', '🧪 TEST MESSAGE - This should appear!', 'error');
+                    };
+                    unsubscribeForm.appendChild(testButton2);
+                }
+            }, 3000);
             
             // Email validation function
             function isValidEmail(email) {
@@ -716,6 +744,9 @@
                 e.preventDefault();
                 console.log('Default prevented');
                 
+                // ALERT TEST - This should show immediately
+                alert('Subscribe form submitted!');
+                
                 // Prevent duplicate submissions
                 if (e.target.dataset.submitting === 'true') {
                     console.log('Already submitting, returning');
@@ -777,6 +808,9 @@
             // Handle unsubscribe form submission
             async function handleUnsubscribe(e) {
                 e.preventDefault();
+                
+                // ALERT TEST - This should show immediately
+                alert('Unsubscribe form submitted!');
                 
                 // Prevent duplicate submissions
                 if (e.target.dataset.submitting === 'true') {
