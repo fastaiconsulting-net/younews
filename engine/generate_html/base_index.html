@@ -498,7 +498,7 @@
                     economics, technology, and major global events.
                 </p>
                 
-                <form id="subscribeForm" class="subscribe-form">
+                <form id="subscribeForm" class="subscribe-form" method="POST" action="javascript:void(0)">
                     <div class="form-group">
                         <label for="email">📧 Email Address_</label>
                         <input type="email" id="email" name="email" required placeholder="your.email@example.com">
@@ -586,7 +586,7 @@
             <h3>> Need to Unsubscribe?_</h3>
             <p>We understand that circumstances change. You can unsubscribe at any time with just one click.</p>
             
-            <form id="unsubscribeForm">
+            <form id="unsubscribeForm" method="POST" action="javascript:void(0)">
                 <div class="form-group">
                     <label for="unsubscribeEmail">📧 Email Address_</label>
                     <input type="email" id="unsubscribeEmail" name="email" required placeholder="your.email@example.com">
@@ -602,11 +602,20 @@
         </footer>
     </div>
 
-    <script src="config.js"></script>
+    <script src="../config.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, setting up forms...');
+            
+            // Check if config is loaded
+            if (!window.YouNewsConfig) {
+                console.error('YouNewsConfig not found! Make sure config.js is loaded.');
+                return;
+            }
+            
             // API Configuration from config.js
             const API_BASE_URL = window.YouNewsConfig.API_BASE_URL;
+            console.log('API Base URL:', API_BASE_URL);
             
             // Email validation function
             function isValidEmail(email) {
@@ -675,11 +684,14 @@
             }
 
             // Handle subscribe form submission
-            document.getElementById('subscribeForm').addEventListener('submit', async (e) => {
+            async function handleSubscribe(e) {
+                console.log('Subscribe form submitted!');
                 e.preventDefault();
+                console.log('Default prevented');
                 
                 // Prevent duplicate submissions
                 if (e.target.dataset.submitting === 'true') {
+                    console.log('Already submitting, returning');
                     return;
                 }
                 
@@ -726,10 +738,10 @@
                     submitButton.disabled = false;
                     submitButton.textContent = '📬 Subscribe to YouNews()';
                 }
-            });
+            }
 
             // Handle unsubscribe form submission
-            document.getElementById('unsubscribeForm').addEventListener('submit', async (e) => {
+            async function handleUnsubscribe(e) {
                 e.preventDefault();
                 
                 // Prevent duplicate submissions
@@ -784,7 +796,7 @@
                     submitButton.disabled = false;
                     submitButton.textContent = '📭 Unsubscribe()';
                 }
-            });
+            }
 
             function showMessage(elementId, message, type) {
                 const element = document.getElementById(elementId);
@@ -795,6 +807,89 @@
                     element.innerHTML = '';
                 }, 5000);
             }
+            
+            // Setup form handlers after all functions are defined
+            console.log('Setting up form handlers...');
+            
+            // Subscribe form
+            const subscribeForm = document.getElementById('subscribeForm');
+            if (subscribeForm) {
+                console.log('Subscribe form found, adding listener');
+                subscribeForm.addEventListener('submit', handleSubscribe);
+            } else {
+                console.error('Subscribe form not found');
+            }
+            
+            // Unsubscribe form
+            const unsubscribeForm = document.getElementById('unsubscribeForm');
+            if (unsubscribeForm) {
+                console.log('Unsubscribe form found, adding listener');
+                unsubscribeForm.addEventListener('submit', handleUnsubscribe);
+            } else {
+                console.error('Unsubscribe form not found');
+            }
+            
+            // Also try setting up after a short delay as fallback
+            setTimeout(() => {
+                console.log('Fallback: Setting up form handlers...');
+                const subscribeFormRetry = document.getElementById('subscribeForm');
+                const unsubscribeFormRetry = document.getElementById('unsubscribeForm');
+                
+                if (subscribeFormRetry && !subscribeFormRetry.hasAttribute('data-listener-added')) {
+                    console.log('Fallback: Subscribe form found, adding listener');
+                    subscribeFormRetry.setAttribute('data-listener-added', 'true');
+                    subscribeFormRetry.addEventListener('submit', handleSubscribe);
+                }
+                
+                if (unsubscribeFormRetry && !unsubscribeFormRetry.hasAttribute('data-listener-added')) {
+                    console.log('Fallback: Unsubscribe form found, adding listener');
+                    unsubscribeFormRetry.setAttribute('data-listener-added', 'true');
+                    unsubscribeFormRetry.addEventListener('submit', handleUnsubscribe);
+                }
+            }, 100);
+            
+            // Add click handlers to buttons as backup
+            setTimeout(() => {
+                console.log('Adding backup click handlers...');
+                const subscribeButton = document.querySelector('#subscribeForm button[type="submit"]');
+                const unsubscribeButton = document.querySelector('#unsubscribeForm button[type="submit"]');
+                
+                if (subscribeButton) {
+                    console.log('Adding click handler to subscribe button');
+                    subscribeButton.addEventListener('click', (e) => {
+                        console.log('Subscribe button clicked!');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const email = document.getElementById('email').value.trim();
+                        if (email && isValidEmail(email)) {
+                            console.log('Calling handleSubscribe from button click');
+                            handleSubscribe({ 
+                                preventDefault: () => {}, 
+                                target: document.getElementById('subscribeForm') 
+                            });
+                        }
+                    });
+                }
+                
+                if (unsubscribeButton) {
+                    console.log('Adding click handler to unsubscribe button');
+                    unsubscribeButton.addEventListener('click', (e) => {
+                        console.log('Unsubscribe button clicked!');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const email = document.getElementById('unsubscribeEmail').value.trim();
+                        if (email && isValidEmail(email)) {
+                            console.log('Calling handleUnsubscribe from button click');
+                            handleUnsubscribe({ 
+                                preventDefault: () => {}, 
+                                target: document.getElementById('unsubscribeForm') 
+                            });
+                        }
+                    });
+                }
+            }, 200);
         });
     </script>
 </body>
