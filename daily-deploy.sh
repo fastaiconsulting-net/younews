@@ -13,7 +13,8 @@ if [ -d "venv" ]; then
 fi
 
 echo "📰 Generating today's news report..."
-python main.py
+# python main.py
+echo "🦠 Skipping news generation..."
 
 echo "🌐 Building HTML documentation..."
 python generate_html/generate_html.py

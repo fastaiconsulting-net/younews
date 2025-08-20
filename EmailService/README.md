@@ -78,21 +78,24 @@ uvicorn app:app --reload --port 8000
 ### Example Usage
 
 ```bash
+local_host={http://localhost:8000}
+# BASE_URL=local_host
+
 # Subscribe a user (will trigger confirmation email)
-curl -X POST "http://localhost:8000/subscriptions/subscribe" \
+curl -X POST "${BASE_URL}/subscriptions/subscribe" \
   -H "Content-Type: application/json" \
   -d '{"email": "user@example.com"}'
 
 # Check subscription status
-curl "http://localhost:8000/subscriptions/user@example.com"
+curl "${BASE_URL}/subscriptions/user@example.com"
 
 # Unsubscribe a user (using subscription ARN)
-curl -X POST "http://localhost:8000/subscriptions/unsubscribe" \
+curl -X POST "${BASE_URL}/subscriptions/unsubscribe" \
   -H "Content-Type: application/json" \
   -d '{"subscription_arn": "arn:aws:sns:..."}'
 
 # Get all confirmed subscriptions
-curl "http://localhost:8000/subscriptions"
+curl "${BASE_URL}/subscriptions"
 ```
 
 ## Deploy (Terraform + container)

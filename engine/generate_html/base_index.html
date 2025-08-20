@@ -602,7 +602,7 @@
         </footer>
     </div>
 
-    <script src="../config.js"></script>
+    <script src="../../config.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, setting up forms...');
@@ -616,6 +616,20 @@
             // API Configuration from config.js
             const API_BASE_URL = window.YouNewsConfig.API_BASE_URL;
             console.log('API Base URL:', API_BASE_URL);
+            
+            // Test API connection on page load
+            async function testApiConnection() {
+                try {
+                    console.log('Testing API connection...');
+                    const response = await apiCall('/healthz', 'GET');
+                    console.log('API connection successful:', response);
+                } catch (error) {
+                    console.error('API connection failed:', error);
+                }
+            }
+            
+            // Test API connection
+            testApiConnection();
             
             // Email validation function
             function isValidEmail(email) {
@@ -729,6 +743,10 @@
                         showMessage('subscribeMessage', '📧 This email is already subscribed to YouNews!', 'error');
                     } else if (error.message.includes('invalid email')) {
                         showMessage('subscribeMessage', '❌ Please enter a valid email address.', 'error');
+                    } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                        showMessage('subscribeMessage', '🌐 Network error. Please check your connection and try again.', 'error');
+                    } else if (error.message.includes('CORS')) {
+                        showMessage('subscribeMessage', '🔒 CORS error. Please contact support.', 'error');
                     } else {
                         showMessage('subscribeMessage', `❌ Error: ${error.message}`, 'error');
                     }
@@ -787,6 +805,10 @@
                     console.error('Unsubscribe Error:', error);
                     if (error.message.includes('404') || error.message.includes('not found')) {
                         showMessage('unsubscribeMessage', '📭 Email not found in our subscription list.', 'error');
+                    } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                        showMessage('unsubscribeMessage', '🌐 Network error. Please check your connection and try again.', 'error');
+                    } else if (error.message.includes('CORS')) {
+                        showMessage('unsubscribeMessage', '🔒 CORS error. Please contact support.', 'error');
                     } else {
                         showMessage('unsubscribeMessage', `❌ Error: ${error.message}`, 'error');
                     }
