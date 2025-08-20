@@ -673,9 +673,17 @@
                 const email = document.getElementById('unsubscribeEmail').value;
                 
                 try {
-                    // Use the correct unsubscribe endpoint
+                    // First, get the subscription ARN for the email
+                    const subscription = await apiCall(`/subscriptions/${email}`, 'GET');
+                    
+                    if (!subscription || !subscription.subscription_arn) {
+                        showMessage('unsubscribeMessage', '📭 Email not found in our subscription list.', 'error');
+                        return;
+                    }
+                    
+                    // Then unsubscribe using the subscription ARN
                     const result = await apiCall('/subscriptions/unsubscribe', 'POST', {
-                        email: email
+                        subscription_arn: subscription.subscription_arn
                     });
 
                     showMessage('unsubscribeMessage', '📭 Successfully unsubscribed from YouNews. You will no longer receive daily updates.', 'success');

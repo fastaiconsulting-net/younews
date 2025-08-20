@@ -1,0 +1,19 @@
+{
+  "version": "2.0",
+  "routeKey": "GET /subscriptions",
+  "rawPath": "/subscriptions",
+  "rawQueryString": "",
+  "headers": {
+    "content-type": "application/json"
+  },
+  "requestContext": {
+    "http": {
+      "method": "GET",
+      "path": "/subscriptions",
+      "sourceIp": "127.0.0.1",
+      "userAgent": "test-agent"
+    },
+    "requestId": "test-request-id",
+    "stage": "$default"
+  }
+}

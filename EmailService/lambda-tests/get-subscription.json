@@ -1,0 +1,22 @@
+{
+  "version": "2.0",
+  "routeKey": "GET /subscriptions/{email}",
+  "rawPath": "/subscriptions/test@example.com",
+  "rawQueryString": "",
+  "headers": {
+    "content-type": "application/json"
+  },
+  "requestContext": {
+    "http": {
+      "method": "GET",
+      "path": "/subscriptions/test@example.com",
+      "sourceIp": "127.0.0.1",
+      "userAgent": "test-agent"
+    },
+    "requestId": "test-request-id",
+    "stage": "$default"
+  },
+  "pathParameters": {
+    "email": "test@example.com"
+  }
+}
