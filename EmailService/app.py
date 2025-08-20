@@ -32,8 +32,8 @@ app.add_middleware(
         "https://fastaiconsulting-net.github.io/",  # With trailing slash
         "https://fastaiconsulting-net.github.io/younews",  # Your specific path
         "https://fastaiconsulting-net.github.io/younews/",  # Your specific path with slash
-        # "http://localhost:8000",  # Local development
-        # "*"  # Temporarily
+        "http://localhost:8000",  # Local development
+        "*"  # Temporarily
     ],
     allow_credentials=False,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
