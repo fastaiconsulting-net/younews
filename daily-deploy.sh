@@ -3,6 +3,9 @@
 clear
 echo "🚀 Starting YouNews daily deployment..."
 
+echo "🗑️ Deleting old index.html..."
+rm index.html
+
 echo "📂 Changing to Engine directory..."
 cd Engine
 
@@ -23,15 +26,15 @@ python generate_html/generate_html.py
 # cd ..
 # open index.html
 
-cd ..
 echo "🔄 Pushing to github..."
+cd ..
 git add .
 git commit -m "Daily deployment $(date +%Y:%m:%d-%H:%M:%S)"
 git push
 
 echo "🔗 Open site in browser..."
-# open https://fastaiconsulting-net.github.io/younews/
-open index.html
+open https://fastaiconsulting-net.github.io/younews/
+# open index.html
 
 
 # Deactivate virtual environment

@@ -4,7 +4,7 @@ import requests
 
 def generate_index_html(
         docs_for_frontend: list,
-        base_html_doc_path: str = "./generate_html/index.html",
+        base_html_doc_path: str = "./generate_html/base_index.html",
         save_path: str = '../index.html'):
     # Read the template index.html
     with open(base_html_doc_path, "r") as f:
@@ -41,10 +41,17 @@ def generate_index_html(
 
     # Replace the articles section
     start_marker = '<div class="articles-grid">'
-    end_marker = '</div>\n            </div>\n        </section>'
+    end_marker = '</div>\n        </section>'
+    # end_marker = '</div>\n            </div>\n        </section>'
     start_idx = html_content.find(start_marker) + len(start_marker)
     end_idx = html_content.find(end_marker, start_idx)
-    new_content = html_content[:start_idx] + articles_html + html_content[end_idx:]
+
+    if start_idx >= len(start_marker) and end_idx > start_idx:
+        new_content = html_content[:start_idx] + articles_html + html_content[end_idx:]
+    else:
+        print("Warning: Could not find articles section markers")
+        new_content = html_content
+
     # Write the modified content back to index.html
     with open(save_path, "w") as f:
         f.write(new_content)

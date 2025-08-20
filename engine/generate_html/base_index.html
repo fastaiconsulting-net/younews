@@ -603,27 +603,28 @@
     </div>
 
     <script>
-        console.log('=== CONFIG.JS LOADING ===');
-    </script>
-    <script src="config.js"></script>
-    <script>
-        console.log('=== CONFIG.JS LOADED ===');
-        console.log('=== SCRIPT STARTED ===');
+
+
         
-        // Test if config is available
-        console.log('Config available:', typeof window.YouNewsConfig !== 'undefined');
-        if (window.YouNewsConfig) {
-            console.log('API URL:', window.YouNewsConfig.API_BASE_URL);
-        }
+        // Embedded YouNews API Configuration
+        window.YouNewsConfig = {
+            API_BASE_URL: 'https://8a17q933pb.execute-api.eu-west-2.amazonaws.com',
+            AVAILABLE_TOPICS: {
+                'us-politics': '🗽 US Politics',
+                'global-politics': '🌍 Global Politics',
+                'economics': '💰 Economics',
+                'ai': '🤖 AI',
+                'technology': '💻 Technology'
+            }
+        };
+        
+        console.log('Config loaded:', window.YouNewsConfig.API_BASE_URL);
         
         document.addEventListener('DOMContentLoaded', function() {
             console.log('=== DOM LOADED ===');
             console.log('Setting up forms...');
             
-            // Add a visible test to see if JavaScript is running
-            const testDiv = document.createElement('div');
-            testDiv.innerHTML = '<p style="background: red; color: white; padding: 10px; margin: 10px;">🧪 JAVASCRIPT IS RUNNING - If you see this, JS works!</p>';
-            document.body.appendChild(testDiv);
+            // Initialize the app
             
             // Check if config is loaded
             if (!window.YouNewsConfig) {
@@ -649,42 +650,8 @@
             // Test API connection
             testApiConnection();
             
-            // Test message display
-            setTimeout(() => {
-                console.log('Testing message display...');
-                showMessage('subscribeMessage', '🧪 Test message - if you see this, message display is working!', 'success');
-                setTimeout(() => {
-                    showMessage('unsubscribeMessage', '🧪 Test message - if you see this, message display is working!', 'error');
-                }, 1000);
-            }, 2000);
-            
-            // Add test buttons for debugging
-            setTimeout(() => {
-                const subscribeForm = document.getElementById('subscribeForm');
-                const unsubscribeForm = document.getElementById('unsubscribeForm');
-                
-                if (subscribeForm) {
-                    const testButton = document.createElement('button');
-                    testButton.textContent = '🧪 TEST SUBSCRIBE MESSAGE';
-                    testButton.style.cssText = 'background: red; color: white; padding: 10px; margin: 10px; border: none; border-radius: 5px; cursor: pointer;';
-                    testButton.onclick = () => {
-                        console.log('Test button clicked!');
-                        showMessage('subscribeMessage', '🧪 TEST MESSAGE - This should appear!', 'success');
-                    };
-                    subscribeForm.appendChild(testButton);
-                }
-                
-                if (unsubscribeForm) {
-                    const testButton2 = document.createElement('button');
-                    testButton2.textContent = '🧪 TEST UNSUBSCRIBE MESSAGE';
-                    testButton2.style.cssText = 'background: red; color: white; padding: 10px; margin: 10px; border: none; border-radius: 5px; cursor: pointer;';
-                    testButton2.onclick = () => {
-                        console.log('Test button 2 clicked!');
-                        showMessage('unsubscribeMessage', '🧪 TEST MESSAGE - This should appear!', 'error');
-                    };
-                    unsubscribeForm.appendChild(testButton2);
-                }
-            }, 3000);
+
+
             
             // Email validation function
             function isValidEmail(email) {
