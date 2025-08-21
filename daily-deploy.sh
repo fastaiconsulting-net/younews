@@ -111,7 +111,7 @@ open_in_browser() {
 
 send_email_to_subscribers() {
     echo "💌 Sending email..."
-    python Engine/email_daily.py
+    python Engine/email_daily_sns.py
 }
 
 deactivate_venv() {
