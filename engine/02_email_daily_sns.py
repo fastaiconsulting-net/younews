@@ -3,6 +3,8 @@ import logging
 from datetime import datetime
 import os
 
+from generate_html.utils import generate_index_html, extract_date, extract_report_name, extract_html_doc, extract_urls
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -61,12 +63,8 @@ def draft_email(
         📝 Read the full report:
         {path_to_report_html}
 
-        📰 More stories:
-        https://fastaiconsulting-net.github.io/younews/
-
-        📍 FastAI Consulting:
-        https://fastaiconsulting.net
-
+        🗞️ More stories: https://fastaiconsulting-net.github.io/younews/
+        📍 FastAI Consulting: https://fastaiconsulting.net
         ---
         YouNews is built with ❤️ by FastAI.
     """
@@ -75,9 +73,29 @@ def draft_email(
     return message
 
 
+def fetch_lastest_report_path(s3_client, s3_bucket_name):
+    logger.info("Fetching latest report path")
+    response = s3_client.list_objects_v2(Bucket=s3_bucket_name)
+    _, files = extract_urls(response)
+    ordered_date_keys = sorted(files.keys(), reverse=True)
+    most_recent_date = ordered_date_keys[0]
+    most_recent_files = files[most_recent_date]
+    report_name = extract_report_name(most_recent_files, most_recent_date)
+    html_doc_s3_path = extract_html_doc(most_recent_files)
+    logger.info(f"Latest report path fetched: {report_name}, {html_doc_s3_path}")
+    return report_name, html_doc_s3_path
+
+
 if __name__ == "__main__":
     # Example usage
     logger.info("Starting email sending process")
     subject = "Younews Daily by FastAI ❤️"
-    message = draft_email()
+    s3_client = boto3.client(
+        's3',
+        aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
+        aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+        region_name=os.getenv('AWS_REGION', 'eu-west-2'))
+    s3_bucket_name = 'younews-reports'
+    report_name, html_doc_s3_path = fetch_lastest_report_path(s3_client, s3_bucket_name)
+    message = draft_email(report_name, html_doc_s3_path)
     send_daily_email(subject, message)

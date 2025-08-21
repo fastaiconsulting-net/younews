@@ -21,5 +21,11 @@ img:
   generate_image: true
   resolution: "news_article - medium resolution" #  "instagram_feed"
 
+audio:
+  generate_audio: true
+  voice: "onyx"
+  model: "gpt-4o-mini-tts"
+  script_model: "gpt-4.1-mini"
+
 s3:
   bucket_name: "younews-reports"

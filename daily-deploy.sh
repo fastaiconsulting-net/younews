@@ -79,7 +79,7 @@ activate_virtual_environment() {
 generate_news() {
     echo "📰 Generating today's news report..."
     if [ "${GENERATE_NEWS}" = true ]; then
-        python main.py
+        python 01_generate_news_report.py
     else
         echo "🦠 Skipping news generation..."
     fi
@@ -111,7 +111,7 @@ open_in_browser() {
 
 send_email_to_subscribers() {
     echo "💌 Sending email..."
-    python Engine/email_daily_sns.py
+    python 02_email_daily_sns.py
 }
 
 deactivate_venv() {

@@ -5,7 +5,7 @@ import os
 from younews_reporter.utils import extract_main_title
 
 
-def apply_younews_styling(html_content, title="YouNews Report", image_path=None):
+def apply_younews_styling(html_content, title="YouNews Report", image_path=None, audio_file=None):
     """
     Apply YouNews styling to HTML content generated from markdown.
     
@@ -13,6 +13,7 @@ def apply_younews_styling(html_content, title="YouNews Report", image_path=None)
         html_content (str): The HTML content to style
         title (str): The title for the page
         image_path (str, optional): Path to an image to embed in the document
+        audio_file (str, optional): Path to an audio file to embed in the document
     
     Returns:
         str: Complete HTML document with YouNews styling applied
@@ -66,6 +67,12 @@ def apply_younews_styling(html_content, title="YouNews Report", image_path=None)
                         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
                         display: block; margin: 0 auto;">
         </div>''' if image_path else ''}
+        {f'''<div style="text-align: center; margin: 2rem 0;">
+            <audio controls style="width: 100%; max-width: 600px;">
+                <source src="{audio_file}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+        </div>''' if audio_file else ''}
         {html_content}
     </div>
 </body>
@@ -78,10 +85,12 @@ def convert_md_to_html(
     md_file_path: str = None,
     markdown_content: str = None,
     image_path_to_embed: str = None,
+    embed_audio_file: str = None,
     secondary_title: str = "> YOUNEWS DAILY REPORT",
 ):
     
-    assert md_file_path is not None or markdown_content is not None, "Either md_file_path or markdown_content must be provided"
+    if not (md_file_path or markdown_content):
+        raise ValueError("Either md_file_path or markdown_content must be provided")
 
     if md_file_path is not None:
         # From a file
@@ -100,7 +109,7 @@ def convert_md_to_html(
         line_stripped = line.strip()
         # Check for markdown heading (# Title) or bold markdown (**Title**)
         if not title_removed and (
-            line_stripped.startswith('# ') or 
+            line_stripped.startswith('# ') or
             (line_stripped.startswith('**') and line_stripped.endswith('**'))
         ):
             title_removed = True
@@ -116,8 +125,8 @@ def convert_md_to_html(
         extensions=['markdown.extensions.nl2br', 'markdown.extensions.sane_lists']
     )
 
-    # Apply YouNews styling with the extracted main title
-    styled_html = apply_younews_styling(html_content, main_title, image_path_to_embed)
+    # Apply YouNews styling with the extracted main title and optional audio file
+    styled_html = apply_younews_styling(html_content, main_title, image_path_to_embed, embed_audio_file)
 
     return styled_html
 
@@ -128,8 +137,12 @@ if __name__ == "__main__":
     html_file_path = "reports/news-report.html"
     image_path = "news-report.png"
     
-    # Optional: Add an image to the report
+    # Optional: Add an image and audio to the report
     # image_path = "reports/news-image.png"  # Uncomment and set path to include an image
+    # audio_path = "reports/audio.wav"  # Uncomment and set path to include audio
     
-    convert_md_to_html(md_file_path, html_file_path, secondary_title, image_path)
-    # convert_md_to_html(md_file_path, html_file_path, secondary_title, image_path)  # With image
+    convert_md_to_html(
+        md_file_path=md_file_path,
+        image_path_to_embed=image_path,
+        embed_audio_file=None  # Set to audio_path to include audio
+    )

@@ -45,6 +45,10 @@ def load_config():
         config['img']['generate_image'],
         config['img']['resolution'],
         config['s3']['bucket_name'],
+        config['audio']['generate_audio'],
+        config['audio']['voice'],
+        config['audio']['model'],
+        config['audio']['script_model'],
     )
 
 
@@ -52,6 +56,7 @@ def files_names(
     root_dir: str,
     s3_bucket_name: str,
     generate_image: bool = False,
+    generate_audio: bool = False,
     s3_region: str = "eu-west-2"
 ):
     """
@@ -67,9 +72,26 @@ def files_names(
     image_s3_ref_path = None
     if generate_image:
         image_path = f"{base}/news-image.png"
-        # "https://younews-reports.s3.eu-west-2.amazonaws.com/2025%3A08%3A21-13%3A43%3A13/news-image.png"
         image_s3_ref_path = f"https://{s3_bucket_name}.s3.{s3_region}.amazonaws.com/{today}/news-image.png"
-    return today, base, markdown_news_report_path, html_news_report_path, socials_post_text_path, image_path, image_s3_ref_path
+    audio_path = None
+    audio_script_path = None
+    audio_s3_ref_path = None
+    if generate_audio:
+        audio_path = f"{base}/audio.wav"
+        audio_script_path = f"{base}/audio_script.txt"
+        audio_s3_ref_path = f"https://{s3_bucket_name}.s3.{s3_region}.amazonaws.com/{today}/audio.wav"
+    return (
+        today,
+        base,
+        markdown_news_report_path,
+        html_news_report_path,
+        socials_post_text_path,
+        image_path,
+        image_s3_ref_path,
+        audio_path,
+        audio_script_path,
+        audio_s3_ref_path
+    )
 
 
 def upload_to_s3(
