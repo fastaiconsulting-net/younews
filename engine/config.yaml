@@ -18,8 +18,8 @@ output:
   root: "reports"
 
 img:
-  generate_image: false
-  resolution: "news_article" #  "instagram_feed"
+  generate_image: true
+  resolution: "news_article - medium resolution" #  "instagram_feed"
 
 s3:
   bucket_name: "younews-reports"

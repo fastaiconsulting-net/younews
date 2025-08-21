@@ -1,4 +1,4 @@
-IMAGE_TAG=v0.0.2
+IMAGE_TAG=v0.0.3
 echo "🏷️ Using image tag: ${IMAGE_TAG}"
 
 cd infra

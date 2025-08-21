@@ -1,46 +1,149 @@
 #!/bin/bash
 
-clear
-echo "🚀 Starting YouNews daily deployment..."
+# Environment Variables Configuration:
+# Create a .env file in the project root with the following variables:
+#
+# Application Settings:
+# GITHUB_PAGES_URL - URL of your GitHub Pages site
+# VIRTUAL_ENV_PATH - Path to your virtual environment
+# GENERATE_NEWS - Set to true/false to enable/disable news generation
+# OPEN_IN_BROWSER - Set to true/false to automatically open the site after deployment
+#
+# AWS Credentials:
+# AWS_ACCESS_KEY_ID - Your AWS access key
+# AWS_SECRET_ACCESS_KEY - Your AWS secret key
+# AWS_DEFAULT_REGION - Your AWS region (e.g., us-east-1)
+#
 
-echo "🗑️ Deleting old index.html..."
-rm index.html
+# Load environment variables from .env file
+load_env() {
+    if [ -f ".env" ]; then
+        echo "📝 Loading environment variables from .env..."
+        export $(cat .env | grep -v '^#' | xargs)
+    else
+        echo "⚠️  No .env file found, using default values..."
+    fi
+}
 
-echo "📂 Changing to Engine directory..."
-cd Engine
-
-# Activate virtual environment if it exists
-if [ -d "venv" ]; then
-    echo "🔮 Activating virtual environment..."
-    source venv/bin/activate
-fi
-
-echo "📰 Generating today's news report..."
-# python main.py
-echo "🦠 Skipping news generation..."
-
-echo "🌐 Building HTML documentation..."
-python generate_html/generate_html.py
-
-# echo "🔍 Opening generated HTML page..."
-# cd ..
-# open index.html
-
-echo "🔄 Pushing to github..."
-cd ..
-git add .
-git commit -m "Daily deployment $(date +%Y:%m:%d-%H:%M:%S)"
-git push
-
-echo "🔗 Open site in browser..."
-open https://fastaiconsulting-net.github.io/younews/
-# open index.html
+log_env() {
+    echo "🔍 Environment variables:"
+    echo "====================== OpenAI API Key =========================="
+    echo "OPENAI_API_KEY: $OPENAI_API_KEY"
+    echo "===================== AWS Credentials =========================="
+    echo "AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID"
+    echo "AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY"
+    echo "AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION"
+    echo "===================== Application Settings ====================="
+    echo "GITHUB_PAGES_URL: $GITHUB_PAGES_URL"
+    echo "VIRTUAL_ENV_PATH: $VIRTUAL_ENV_PATH"
+    echo "GENERATE_NEWS: $GENERATE_NEWS"
+    echo "OPEN_IN_BROWSER: $OPEN_IN_BROWSER"
+    echo "================================================================"
+}
 
 
-# Deactivate virtual environment
-if [ -n "$VIRTUAL_ENV" ]; then
-    echo "👋 Deactivating virtual environment..."
-    deactivate
-fi
+verify_aws_credentials() {
+    if [ -z "$AWS_ACCESS_KEY_ID" ] || [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+        echo "❌ Error: AWS credentials not found in .env file"
+        echo "Please create a .env file with AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY"
+        exit 1
+    fi
+}
 
-echo "✨ Daily deployment completed successfully!"
+verify_openai_api_key() {
+    if [ -z "$OPENAI_API_KEY" ]; then
+        echo "❌ Error: OpenAI API key not found in .env file"
+        echo "Please create a .env file with OPENAI_API_KEY"
+        exit 1
+    fi
+}
+
+delete_old_index_html() {
+    echo "🗑️ Deleting old index.html..."
+    rm index.html
+}
+
+change_to_engine_directory() {
+    echo "📂 Changing to Engine directory..."
+    cd Engine
+}
+
+activate_virtual_environment() {
+    # Activate virtual environment if it exists
+    if [ -d "${VIRTUAL_ENV_PATH}" ]; then
+        echo "🔮 Activating virtual environment..."
+        source "${VIRTUAL_ENV_PATH}/bin/activate"
+    fi
+}
+
+generate_news() {
+    echo "📰 Generating today's news report..."
+    if [ "${GENERATE_NEWS}" = true ]; then
+        python main.py
+    else
+        echo "🦠 Skipping news generation..."
+    fi
+}
+
+generate_html() {
+    echo "🌐 Building HTML documentation..."
+    python generate_html/generate_html.py
+}
+
+push_to_github() {
+    echo "🔄 Pushing to github..."
+    cd ..
+    git add .
+    git commit -m "Daily deployment $(date +%Y:%m:%d-%H:%M:%S)"
+    git push
+
+}
+
+open_in_browser() {
+    if [ "${OPEN_IN_BROWSER}" = true ]; then
+        echo "🔗 Opening site in browser..."
+        open "${GITHUB_PAGES_URL}"
+        # echo "🔍 Opening generated HTML page..."
+        # cd ..
+        # open index.html
+    fi
+}
+
+send_email_to_subscribers() {
+    echo "💌 Sending email..."
+    python Engine/email_daily.py
+}
+
+deactivate_venv() {
+    if [ -n "$VIRTUAL_ENV" ]; then
+        echo "👋 Deactivating virtual environment..."
+        deactivate
+    fi
+}
+
+main() {
+    clear
+    echo "🚀 Starting YouNews daily deployment..."
+    load_env
+    log_env
+    verify_aws_credentials
+    verify_openai_api_key
+    delete_old_index_html
+    change_to_engine_directory
+    activate_virtual_environment
+    generate_news
+    generate_html
+    push_to_github
+    open_in_browser
+    send_email_to_subscribers
+    deactivate_venv
+    echo "✨ Daily deployment completed successfully!"
+}
+
+main
+
+
+
+
+
+
