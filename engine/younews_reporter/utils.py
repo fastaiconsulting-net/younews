@@ -51,24 +51,23 @@ def load_config():
 def files_names(
     root_dir: str,
     s3_bucket_name: str,
-    generate_image: bool = False):
+    generate_image: bool = False
+):
+    """
+    base --> local path
+    """
     today = datetime.now().strftime("%Y:%m:%d-%H:%M:%S")
     base = f"{root_dir}/{today}"
     os.makedirs(base, exist_ok=True)
     markdown_news_report_path = f"{base}/news-report.md"
     html_news_report_path = f"{base}/news-report.html"
     socials_post_text_path = f"{base}/socials-post-text.txt"
-    image_news_report_path = None
-    image_reference_path = None
-    image_s3_url = None
+    image_path = None
+    image_s3_ref_path = None
     if generate_image:
-        image_reference_path = f"{today}-news-image.png"
-        image_news_report_path = f"{root_dir}/{image_reference_path}"
-        image_s3_url = f"https://{s3_bucket_name}.s3.amazonaws.com/{today}/news-image.png"
-    else:
-        image_news_report_path = None
-        image_reference_path = None
-    return today, base, markdown_news_report_path, html_news_report_path, socials_post_text_path, image_news_report_path, image_reference_path, image_s3_url
+        image_path = f"{base}/news-image.png"
+        image_s3_ref_path = f"https://{s3_bucket_name}.s3.amazonaws.com/{today}/news-image.png"
+    return today, base, markdown_news_report_path, html_news_report_path, socials_post_text_path, image_path, image_s3_ref_path
 
 
 def upload_to_s3(
@@ -77,9 +76,10 @@ def upload_to_s3(
     main_title_path: str,
     markdown_news_report: str,
     html_news_report: str,
-    image_news_report: str,
+    image_path: str,
     socials_post_text: str,
-    s3_bucket_name: str):
+    s3_bucket_name: str
+):
     """
     s3_client.upload_file(
         FileName=file_name,
@@ -117,9 +117,9 @@ def upload_to_s3(
     # )
 
     # Upload image with public read access (if exists)
-    if image_news_report:
+    if image_path:
         s3_client.upload_file(
-            image_news_report,
+            image_path,
             s3_bucket_name,
             f"{today}/news-image.png",
             ExtraArgs={'ContentType': 'image/png'}
@@ -158,15 +158,15 @@ def save_locally(
     logger.info(f"> Saved HTML report to {html_file_path}")
 
 
-def save_image(image_base64, image_news_report, logger: logging.Logger = None):
+def save_image(image_base64, image_path, logger: logging.Logger = None):
     if logger is None:
         logger = setup_logger("younews-reporter")
 
     if image_base64:
-        with open(image_news_report, "wb") as f:
+        with open(image_path, "wb") as f:
             f.write(base64.b64decode(image_base64))
-            logger.info(f'saved {image_news_report}')
-        logger.info(f"> Saved image to {image_news_report}")
+            logger.info(f'saved {image_path}')
+        logger.info(f"> Saved image to {image_path}")
         return
     logger.info("> Image corrupt - can not saved.")
 

@@ -17,9 +17,8 @@ if __name__ == "__main__":
      markdown_news_report_path,
      html_news_report_path,
      socials_post_text_path,
-     image_news_report_path,
-     image_reference_path,
-     image_s3_url) = files_names(ROOT_DIR, BUCKET_NAME, GENERATE_IMAGE)
+     image_path,
+     image_s3_ref_path) = files_names(ROOT_DIR, BUCKET_NAME, GENERATE_IMAGE)
     logger = setup_logger('Topics News Engine')
 
     s3_client = boto3.client(
@@ -38,18 +37,19 @@ if __name__ == "__main__":
     if GENERATE_IMAGE:
         agent = ImageGeneratorAgent(model=MODEL)
         image_base64 = agent.run(report_txt, RESOLUTION)
-        save_image(image_base64, image_news_report_path, logger)
+        save_image(image_base64, image_path, logger)
 
-    # embedd report to html
+    # html report: local reference
     main_title = extract_main_title(report_txt)
-    styled_html = convert_md_to_html(
-        markdown_content=report_txt,
-        secondary_title=">Younews Daily Report",
-        image_path_to_embed=image_s3_url)
     local_html = convert_md_to_html(
         markdown_content=report_txt,
         secondary_title=">Younews Daily Report",
-        image_path_to_embed=image_reference_path)
+        image_path_to_embed=image_path)
+    styled_html = convert_md_to_html(
+        markdown_content=report_txt,
+        secondary_title=">Younews Daily Report",
+        image_path_to_embed=image_s3_ref_path)
+    
 
     # generate socials post text
     agent = SocialsPostTextAgent(model=MODEL)
@@ -71,7 +71,7 @@ if __name__ == "__main__":
         main_title_path,
         markdown_news_report_path,
         html_news_report_path,
-        image_news_report_path,
+        image_path,
         socials_post_text_path,
         BUCKET_NAME)
     logger.info(f"> Uploaded reports to s3://{BUCKET_NAME}/{today}")

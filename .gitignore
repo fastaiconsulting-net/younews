@@ -14,6 +14,11 @@ env/
 .coverage
 htmlcov/
 
+# reports
+Engine/reports/
+Engine/reports/**
+
+
 # Node/JavaScript
 node_modules/
 npm-debug.log*
