@@ -77,8 +77,8 @@ def apply_younews_styling(html_content, title="YouNews Report", image_path=None)
 def convert_md_to_html(
     md_file_path: str = None,
     markdown_content: str = None,
-    secondary_title: str = "> YOUNEWS DAILY REPORT",
     image_path_to_embed: str = None,
+    secondary_title: str = "> YOUNEWS DAILY REPORT",
 ):
     
     assert md_file_path is not None or markdown_content is not None, "Either md_file_path or markdown_content must be provided"

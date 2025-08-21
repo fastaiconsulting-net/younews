@@ -51,7 +51,8 @@ def load_config():
 def files_names(
     root_dir: str,
     s3_bucket_name: str,
-    generate_image: bool = False
+    generate_image: bool = False,
+    s3_region: str = "eu-west-2"
 ):
     """
     base --> local path
@@ -66,7 +67,8 @@ def files_names(
     image_s3_ref_path = None
     if generate_image:
         image_path = f"{base}/news-image.png"
-        image_s3_ref_path = f"https://{s3_bucket_name}.s3.amazonaws.com/{today}/news-image.png"
+        # "https://younews-reports.s3.eu-west-2.amazonaws.com/2025%3A08%3A21-13%3A43%3A13/news-image.png"
+        image_s3_ref_path = f"https://{s3_bucket_name}.s3.{s3_region}.amazonaws.com/{today}/news-image.png"
     return today, base, markdown_news_report_path, html_news_report_path, socials_post_text_path, image_path, image_s3_ref_path
 
 

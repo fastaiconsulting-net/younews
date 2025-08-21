@@ -41,22 +41,21 @@ if __name__ == "__main__":
 
     # html report: local reference
     main_title = extract_main_title(report_txt)
-    local_html = convert_md_to_html(
-        markdown_content=report_txt,
-        secondary_title=">Younews Daily Report",
-        image_path_to_embed=image_path)
+    # local_html = convert_md_to_html(
+    #     markdown_content=report_txt,
+    #     secondary_title=">Younews Daily Report",
+    #     image_path_to_embed=image_path)
     styled_html = convert_md_to_html(
         markdown_content=report_txt,
         secondary_title=">Younews Daily Report",
         image_path_to_embed=image_s3_ref_path)
     
-
     # generate socials post text
     agent = SocialsPostTextAgent(model=MODEL)
     socials_post_text = agent.run(report_txt)
     save_socials_post_text(socials_post_text, socials_post_text_path, logger)
 
-    save_locally(markdown_news_report_path, report_txt, html_news_report_path, local_html, logger)
+    save_locally(markdown_news_report_path, report_txt, html_news_report_path, styled_html, logger)
     logger.info(f"> Saved reports to {ROOT_DIR}/{today}-[files]")
 
     # save main title to file
