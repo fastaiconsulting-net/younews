@@ -80,7 +80,7 @@ if __name__ == "__main__":
         s3_client=s3_client,
         today=today,
         main_title_path=main_title_path,
-        markdown_news_report_path=markdown_news_report_path,
+        markdown_news_report=markdown_news_report_path,
         html_news_report_path=html_news_report_path,
         socials_post_text_path=socials_post_text_path,
         image_path=image_path,
