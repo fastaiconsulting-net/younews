@@ -2,7 +2,7 @@ import base64
 from openai import OpenAI
 import os
 
-from news_audio.news_forecaster import AudioScript, GenerateAudio, dummy_script
+from news_forecaster import AudioScript, GenerateAudio, dummy_script
 
 
 if __name__ == "__main__":
@@ -24,6 +24,8 @@ if __name__ == "__main__":
     script = AudioScript.generate_audio_script(client, title, markdown_text)    
     script = dummy_script()
     AudioScript.save_script(script, save_script_file)
+    print(f"> Saved audio script to {save_script_file}")
 
     audio_generator = GenerateAudio(client)
     audio_generator.generate_audio(script, save_audio_file)
+    print(f"> Saved audio to {save_audio_file}")

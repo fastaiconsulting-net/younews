@@ -35,9 +35,24 @@ def setup_logger(name: str):
     return logger
 
 
-def load_config():
-    with open('config.yaml', 'r') as f:
+def load_config(config_path: str = "config.yaml", logger: logging.Logger = None):
+    with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
+    if logger is not None:
+        logger.info("--------------------------------")
+        logger.info('------------ Config ------------')
+        logger.info("--------------------------------")
+        logger.info(f"> Topics: {config['topics']}")
+        logger.info(f"> Model: {config['model']}")
+        logger.info(f"> Output root: {config['output']['root']}")
+        logger.info(f"> Generate image: {config['img']['generate_image']}")
+        logger.info(f"> Resolution: {config['img']['resolution']}")
+        logger.info(f"> S3 bucket name: {config['s3']['bucket_name']}")
+        logger.info(f"> Generate audio: {config['audio']['generate_audio']}")
+        logger.info(f"> Voice: {config['audio']['voice']}")
+        logger.info(f"> Model: {config['audio']['model']}")
+        logger.info(f"> Script model: {config['audio']['script_model']}")
+        logger.info("--------------------------------")
     return (
         config['topics'],
         config['model'],
@@ -57,7 +72,7 @@ def files_names(
     s3_bucket_name: str,
     generate_image: bool = False,
     generate_audio: bool = False,
-    s3_region: str = "eu-west-2"
+    s3_region: str = "eu-west-2",
 ):
     """
     base --> local path
@@ -100,8 +115,10 @@ def upload_to_s3(
     main_title_path: str,
     markdown_news_report: str,
     html_news_report: str,
-    image_path: str,
     socials_post_text: str,
+    image_path: str,
+    audio_script_path: str,
+    audio_path: str,
     s3_bucket_name: str
 ):
     """
@@ -155,6 +172,12 @@ def upload_to_s3(
         #     "latest-news-image.png",
         #     ExtraArgs={'ContentType': 'image/png'}
         # )
+
+    if audio_script_path:
+        s3_client.upload_file(audio_script_path, s3_bucket_name, f"{today}/audio_script.txt")
+
+    if audio_path:
+        s3_client.upload_file(audio_path, s3_bucket_name, f"{today}/audio.wav")
     
     # Upload socials post text
     s3_client.upload_file(socials_post_text, s3_bucket_name, f"{today}/socials-post-text.txt")

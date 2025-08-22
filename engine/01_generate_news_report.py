@@ -11,8 +11,10 @@ from younews_reporter.utils import load_config, files_names, save_image, save_so
 
 from news_audio.news_forecaster import AudioScript, GenerateAudio
 
+
 if __name__ == "__main__":
-    TOPICS, MODEL, ROOT_DIR, GENERATE_IMAGE, RESOLUTION, BUCKET_NAME, GENERATE_AUDIO, VOICE, MODEL, SCRIPT_MODEL = load_config()
+    logger = setup_logger('Topics News Engine')
+    TOPICS, MODEL, ROOT_DIR, GENERATE_IMAGE, RESOLUTION, BUCKET_NAME, GENERATE_AUDIO, VOICE, AUDIO_MODEL, SCRIPT_MODEL = load_config(logger=logger)
     (today,
      base,
      markdown_news_report_path,
@@ -23,7 +25,6 @@ if __name__ == "__main__":
      audio_path,
      audio_script_path,
      audio_s3_ref_path) = files_names(ROOT_DIR, BUCKET_NAME, GENERATE_IMAGE, GENERATE_AUDIO)
-    logger = setup_logger('Topics News Engine')
 
     s3_client = boto3.client(
         's3',
@@ -47,9 +48,9 @@ if __name__ == "__main__":
         save_image(image_base64, image_path, logger)
 
     if GENERATE_AUDIO:
-        script = AudioScript.generate_audio_script(client, main_title, report_txt)
+        script = AudioScript.generate_audio_script(client, main_title, report_txt, SCRIPT_MODEL)
         AudioScript.save_script(script, audio_script_path)
-        audio_generator = GenerateAudio(client=client, voice=VOICE, model=MODEL)
+        audio_generator = GenerateAudio(client=client, voice=VOICE, model=AUDIO_MODEL)
         audio_generator.generate_audio(script, audio_path)
         logger.info(f"> Saved audio to {audio_path}")
         logger.info(f"> Saved audio script to {audio_script_path}")
@@ -82,6 +83,8 @@ if __name__ == "__main__":
         html_news_report_path,
         image_path,
         socials_post_text_path,
+        audio_script_path,
+        audio_path,
         BUCKET_NAME)
     logger.info(f"> Uploaded reports to s3://{BUCKET_NAME}/{today}")
 

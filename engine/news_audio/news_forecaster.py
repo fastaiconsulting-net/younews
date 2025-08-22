@@ -1,6 +1,4 @@
-import base64
 from openai import OpenAI
-import os
 
 
 def dummy_script():
