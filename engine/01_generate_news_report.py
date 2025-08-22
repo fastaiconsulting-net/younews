@@ -59,7 +59,8 @@ if __name__ == "__main__":
     styled_html = convert_md_to_html(
         markdown_content=report_txt,
         secondary_title=">Younews Daily Report",
-        image_path_to_embed=image_s3_ref_path)
+        image_path_to_embed=image_s3_ref_path,
+        embed_audio_file=audio_s3_ref_path)
     
     # generate socials post text
     agent = SocialsPostTextAgent(model=MODEL)
@@ -76,16 +77,17 @@ if __name__ == "__main__":
 
     # upload to s3
     upload_to_s3(
-        s3_client,
-        today,
-        main_title_path,
-        markdown_news_report_path,
-        html_news_report_path,
-        image_path,
-        socials_post_text_path,
-        audio_script_path,
-        audio_path,
-        BUCKET_NAME)
+        s3_client=s3_client,
+        today=today,
+        main_title_path=main_title_path,
+        markdown_news_report_path=markdown_news_report_path,
+        html_news_report_path=html_news_report_path,
+        socials_post_text_path=socials_post_text_path,
+        image_path=image_path,
+        audio_script_path=audio_script_path,
+        audio_path=audio_path,
+        s3_bucket_name=BUCKET_NAME
+    )
     logger.info(f"> Uploaded reports to s3://{BUCKET_NAME}/{today}")
 
     # open image
