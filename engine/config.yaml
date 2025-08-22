@@ -25,7 +25,7 @@ audio:
   generate_audio: true
   voice: "onyx"
   model: "gpt-4o-mini-tts"
-  script_model: "gpt-4.1-mini"
+  script_model: "gpt-4.1-nano"
 
 s3:
   bucket_name: "younews-reports"

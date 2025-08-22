@@ -76,8 +76,8 @@ activate_virtual_environment() {
     fi
 }
 
-generate_news() {
-    echo "📰 Generating today's news report..."
+generate_news_and_push_to_s3() {
+    echo "📰🔄 Generating today's news report & pushing to s3..."
     if [ "${GENERATE_NEWS}" = true ]; then
         python 01_generate_news_report.py
     else
@@ -87,7 +87,7 @@ generate_news() {
 
 generate_html() {
     echo "🌐 Building HTML documentation..."
-    python generate_html/generate_html.py
+    python 02_generate_home_page_html.py
 }
 
 push_to_github() {
@@ -111,7 +111,7 @@ open_in_browser() {
 
 send_email_to_subscribers() {
     echo "💌 Sending email..."
-    python 02_email_daily_sns.py
+    python 03_email_daily_sns.py
 }
 
 deactivate_venv() {
@@ -131,7 +131,7 @@ main() {
     delete_old_index_html
     change_to_engine_directory
     activate_virtual_environment
-    generate_news
+    generate_news_and_push_to_s3
     generate_html
     push_to_github
     open_in_browser

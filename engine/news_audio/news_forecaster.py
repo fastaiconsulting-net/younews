@@ -40,6 +40,7 @@ class AudioScript:
         - Do not add any info that is not in the report.
         - Include all information from the report.
         - Do not report the time or date.
+        - Do not include links in the script.
         - Get to the point, deliver maximum information in the shortest time possible.
 
         Structure the report in the following way:
