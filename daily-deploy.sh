@@ -111,7 +111,7 @@ open_in_browser() {
 
 send_email_to_subscribers() {
     echo "💌 Sending email..."
-    python 03_email_daily_sns.py
+    python Engine/03_email_daily_sns.py
 }
 
 deactivate_venv() {
@@ -124,6 +124,7 @@ deactivate_venv() {
 main() {
     clear
     echo "🚀 Starting YouNews daily deployment..."
+    cd /Users/zachwolpe/Documents/build/younews
     load_env
     log_env
     verify_aws_credentials
@@ -139,6 +140,8 @@ main() {
     deactivate_venv
     echo "✨ Daily deployment completed successfully!"
 }
+
+
 
 main
 

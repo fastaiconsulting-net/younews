@@ -17,6 +17,8 @@ htmlcov/
 # reports
 Engine/reports/
 Engine/reports/**
+Socials/
+Socials/**
 
 
 # Node/JavaScript

@@ -1,3 +1,0 @@
-Global Markets Rally on Fed Rate Cut Hopes — [Topic: Global markets, in particular US, EU, China & SA]  
-Global stock markets hit record highs as steady US inflation data fuels expectations of Federal Reserve rate cuts. Japan’s Nikkei tops 43,000 for the first time, and the MSCI All Country World Index peaks. The US dollar weakens amid political concerns, while oil prices remain stable ahead of the US-Russia summit.  
-#GlobalMarkets #FedRateCut #EconomicUpdate 📈

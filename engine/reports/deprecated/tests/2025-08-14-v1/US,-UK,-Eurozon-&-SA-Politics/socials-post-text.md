@@ -1,3 +1,0 @@
-South Africa and UK Announce Key Political Moves — [Topic: US, UK, Eurozon & SA Politics]  
-South African President Ramaphosa confirms the National Dialogue Convention will proceed on August 15, bringing together 200 organizations nationwide to foster inclusive national discussions. Meanwhile, the UK government plans to restrict civil service internships to graduates from lower socio-economic backgrounds to enhance working-class representation in public service. These steps mark significant efforts toward social inclusivity and political engagement. 🤝  
-#usukpolitics #saeurozonpolitics #breakingnews
