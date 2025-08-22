@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouNews - Daily Global News</title>
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800&display=swap');
+
+        :root {
+            --accent-purple: #8B5CF6;
+            --accent-blue: #3B82F6;
+            --accent-pink: #EC4899;
+            --bg-dark: #0D0D0D;
+            --bg-card: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --border-color: #2D2D2D;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 4rem;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(13, 13, 13, 0.8) 100%);
+            position: relative;
+        }
+
+        .fastai-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: transparent;
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid var(--accent-purple);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .fastai-button:hover {
+            background-color: var(--accent-purple);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-purple);
+        }
+
+        .glitch-text {
+            font-size: 4rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', 'Fira Code', 'IBM Plex Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .todays-news-section {
+            margin: 2rem 0 4rem 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .todays-news-header {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+
+        .todays-news-title {
+            color: #000;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .todays-news-subtitle {
+            color: rgba(0, 0, 0, 0.8);
+            font-size: 1rem;
+        }
+
+        .todays-news-content {
+            padding: 2rem;
+            min-height: 400px;
+        }
+
+        .todays-news-iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+            background: var(--bg-dark);
+        }
+
+        .todays-news-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            color: var(--text-secondary);
+            font-style: italic;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin: 4rem 0;
+            padding: 3rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(236, 72, 153, 0.05));
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .subscribe-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--accent-purple);
+            font-size: 1.1rem;
+            text-align: left;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+            color: #000;
+            text-decoration: none;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            color: #fff;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .benefits-section {
+            margin: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--accent-purple), var(--accent-pink));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .benefit-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .benefit-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .articles-section {
+            margin: 4rem 0;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .article-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .article-card:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .article-date {
+            color: var(--accent-purple);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .article-title {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .article-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .unsubscribe-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .unsubscribe-section h3 {
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+        }
+
+        .unsubscribe-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .glitch-text {
+                font-size: 2.5rem;
+            }
+
+            .todays-news-section {
+                margin: 1rem 0 2rem 0;
+            }
+
+            .todays-news-header {
+                padding: 1rem 1.5rem;
+            }
+
+            .todays-news-title {
+                font-size: 1.3rem;
+            }
+
+            .todays-news-content {
+                padding: 1rem;
+            }
+
+            .todays-news-iframe {
+                height: 400px;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="glitch-text">>YouNews</h1>
+            <p class="subtitle">📰 Daily global news curated for the modern world. A FastAI product.</p>
+            <a href="https://fastaiconsulting.net" target="_blank" class="fastai-button">FastAI</a>
+        </header>
+
+        <section class="todays-news-section">
+            <div class="todays-news-header">
+                <h2 class="todays-news-title">📰 Today's Featured Story</h2>
+                <p class="todays-news-subtitle">August 22, 2025</p>
+            </div>
+            <div class="todays-news-content">
+                <!-- Option 1: Embed an HTML page -->
+                <iframe 
+                    src="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:22-15:50:19/news-report.html" 
+                    class="todays-news-iframe"
+                    title="Today's News Story">
+                </iframe>
+                
+                <!-- Option 2: Placeholder when no story is available -->
+                <!-- 
+                <div class="todays-news-placeholder">
+                    <div>
+                        <h3>No featured story available today</h3>
+                        <p>Check back tomorrow for the latest global news coverage</p>
+                    </div>
+                </div>
+                -->
+            </div>
+        </section>
+
+        <section class="hero-section">
+            <div class="hero-content">
+                <h2 class="hero-title">> Get Daily Global News_</h2>
+                <p class="hero-description">
+                    Stay informed with our daily global news digest. Every morning at 9 AM, 
+                    receive carefully curated insights from around the world covering politics, 
+                    economics, technology, and major global events.
+                </p>
+                
+                <form id="subscribeForm" class="subscribe-form" method="POST" action="javascript:void(0)">
+                    <div class="form-group">
+                        <label for="email">📧 Email Address_</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    </div>
+                    <button type="submit" class="cta-button">📬 Subscribe to YouNews()</button>
+                </form>
+                
+                <div id="subscribeMessage"></div>
+            </div>
+        </section>
+
+        <section class="unsubscribe-section">
+            <h3>> Need to Unsubscribe?_</h3>
+            <p>We understand that circumstances change. You can unsubscribe at any time with just one click.</p>
+            
+            <form id="unsubscribeForm" method="POST" action="javascript:void(0)">
+                <div class="form-group">
+                    <label for="unsubscribeEmail">📧 Email Address_</label>
+                    <input type="email" id="unsubscribeEmail" name="email" required placeholder="your.email@example.com">
+                </div>
+                <button type="submit" class="cta-button">📭 Unsubscribe()</button>
+            </form>
+            
+            <div id="unsubscribeMessage"></div>
+        </section>
+
+        <section class="benefits-section">
+            <div class="section-header">
+                <h2>> Why Choose YouNews?_</h2>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">Join thousands of readers staying informed about global developments</p>
+            </div>
+
+            <div class="benefits-grid">
+                                 <div class="benefit-card">
+                     <div class="benefit-icon">🎯</div>
+                     <h3>> Curated Quality_</h3>
+                     <p>Hand-picked articles from reliable sources, filtered for relevance and accuracy. No noise, just signal.</p>
+                 </div>
+                 
+                 <div class="benefit-card">
+                     <div class="benefit-icon">⚡</div>
+                     <h3>> Daily Delivery_</h3>
+                     <p>Fresh insights delivered to your inbox every morning at 9 AM. Never miss important global developments.</p>
+                 </div>
+                 
+                 <div class="benefit-card">
+                     <div class="benefit-icon">🧠</div>
+                     <h3>> Expert Analysis_</h3>
+                     <p>AI-powered summaries and expert commentary to help you understand complex global events quickly.</p>
+                 </div>
+                 
+                 <div class="benefit-card">
+                     <div class="benefit-icon">🔒</div>
+                     <h3>> Privacy First_</h3>
+                     <p>Your email is only used for news delivery. Unsubscribe anytime with one click. No tracking, no spam.</p>
+                 </div>
+                 
+                 <div class="benefit-card">
+                     <div class="benefit-icon">📱</div>
+                     <h3>> Mobile Optimized_</h3>
+                     <p>Read your daily digest on any device. Clean, responsive design that works perfectly on mobile.</p>
+                 </div>
+                 
+                 <div class="benefit-card">
+                     <div class="benefit-icon">🚀</div>
+                     <h3>> Stay Ahead_</h3>
+                     <p>Get early insights into global trends, political developments, and major events before they go mainstream.</p>
+                 </div>
+            </div>
+        </section>
+
+        <section class="articles-section">
+            <div class="section-header">
+                <h2>> Recent Articles_</h2>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">Sample of our daily coverage</p>
+            </div>
+
+            <div class="articles-grid">
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:22-15:50:19/news-report.html" class="article-card">
+                    <div class="article-date">August 22, 2025</div>
+                    <div class="article-title">Dollar Strengthens as Traders Adjust Rate Cut Expectations Ahead of Powell's Jackson Hole Speech</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:22-10:13:37/news-report.html" class="article-card">
+                    <div class="article-date">August 22, 2025</div>
+                    <div class="article-title">EU Accelerates Digital Euro Plans Amid US Stablecoin Regulation</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:22-09:20:59/news-report.html" class="article-card">
+                    <div class="article-date">August 22, 2025</div>
+                    <div class="article-title">EU Accelerates Digital Euro Plans Amid U.S. Stablecoin Regulation</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:22-09:03:36/news-report.html" class="article-card">
+                    <div class="article-date">August 22, 2025</div>
+                    <div class="article-title">US-EU Trade Deal Finalized Amid Economic Concerns</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:21-17:25:31/news-report.html" class="article-card">
+                    <div class="article-date">August 21, 2025</div>
+                    <div class="article-title">U.S. and EU Finalize Trade Deal, Imposing 15% Tariffs on European Imports</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:21-14:08:30/news-report.html" class="article-card">
+                    <div class="article-date">August 21, 2025</div>
+                    <div class="article-title">U.S. and EU Finalize Trade Agreement, Imposing 15% Tariffs on Most EU Goods</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:21-13:43:13/news-report.html" class="article-card">
+                    <div class="article-date">August 21, 2025</div>
+                    <div class="article-title">U.S. and EU Finalize Trade Agreement, Implementing 15% Tariffs on European Goods</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:21-13:24:45/news-report.html" class="article-card">
+                    <div class="article-date">August 21, 2025</div>
+                    <div class="article-title">US and EU Finalize Trade Agreement, Addressing Tariffs and Investments</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:19-17:26:28/news-report.html" class="article-card">
+                    <div class="article-date">August 19, 2025</div>
+                    <div class="article-title">U.S. and EU Leaders Meet Amid Ukraine Peace Efforts and Trade Negotiations</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:19-17:20:59/news-report.html" class="article-card">
+                    <div class="article-date">August 19, 2025</div>
+                    <div class="article-title">Europe's AI Strategy Gains Momentum Amid Global Competition</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:19-17:20:05/news-report.html" class="article-card">
+                    <div class="article-date">August 19, 2025</div>
+                    <div class="article-title">U.S. and European Leaders Convene at White House to Discuss Ukraine Security Guarantees</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:19-17:15:58/news-report.html" class="article-card">
+                    <div class="article-date">August 19, 2025</div>
+                    <div class="article-title">EU and US Leaders Convene at White House to Discuss Ukraine Security Guarantees</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:19-17:14:22/news-report.html" class="article-card">
+                    <div class="article-date">August 19, 2025</div>
+                    <div class="article-title">U.S. and European Leaders Convene at White House to Discuss Ukraine Security Guarantees</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:19-15:16:38/news-report.html" class="article-card">
+                    <div class="article-date">August 19, 2025</div>
+                    <div class="article-title">U.S. and European Leaders Convene at White House to Discuss Ukraine's Security Guarantees</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:19-14:32:12/news-report.html" class="article-card">
+                    <div class="article-date">August 19, 2025</div>
+                    <div class="article-title">> younews daily report [2025-08-19 14:32:12]</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:18-09:24:45/news-report.html" class="article-card">
+                    <div class="article-date">August 18, 2025</div>
+                    <div class="article-title">> younews daily report [2025-08-18 09:24:45]</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:16-11:19:36/news-report.html" class="article-card">
+                    <div class="article-date">August 16, 2025</div>
+                    <div class="article-title">> younews daily report [2025-08-16 11:19:36]</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:15-15:16:49/news-report.html" class="article-card">
+                    <div class="article-date">August 15, 2025</div>
+                    <div class="article-title">> younews daily report [2025-08-15 15:16:49]</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:15-14:59:41/news-report.html" class="article-card">
+                    <div class="article-date">August 15, 2025</div>
+                    <div class="article-title">> younews daily report [2025-08-15 14:59:41]</div>
+                </a>
+        
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:15-10:59:14/news-report.html" class="article-card">
+                    <div class="article-date">August 15, 2025</div>
+                    <div class="article-title">> younews daily report [2025-08-15 10:59:14]</div>
+                </a>
+        </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 YouNews by FastAI. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+
+
+        
+        // Embedded YouNews API Configuration
+        window.YouNewsConfig = {
+            API_BASE_URL: 'https://8a17q933pb.execute-api.eu-west-2.amazonaws.com',
+            AVAILABLE_TOPICS: {
+                'us-politics': '🗽 US Politics',
+                'global-politics': '🌍 Global Politics',
+                'economics': '💰 Economics',
+                'ai': '🤖 AI',
+                'technology': '💻 Technology'
+            }
+        };
+        
+        console.log('Config loaded:', window.YouNewsConfig.API_BASE_URL);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== DOM LOADED ===');
+            console.log('Setting up forms...');
+            
+            // Initialize the app
+            
+            // Check if config is loaded
+            if (!window.YouNewsConfig) {
+                console.error('YouNewsConfig not found! Make sure config.js is loaded.');
+                return;
+            }
+            
+            // API Configuration from config.js
+            const API_BASE_URL = window.YouNewsConfig.API_BASE_URL;
+            console.log('API Base URL:', API_BASE_URL);
+            
+            // Test API connection on page load
+            async function testApiConnection() {
+                try {
+                    console.log('Testing API connection...');
+                    const response = await apiCall('/healthz', 'GET');
+                    console.log('API connection successful:', response);
+                } catch (error) {
+                    console.error('API connection failed:', error);
+                }
+            }
+            
+            // Test API connection
+            testApiConnection();
+            
+
+
+            
+            // Email validation function
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+            
+            // Real-time email validation
+            function setupEmailValidation() {
+                const subscribeEmail = document.getElementById('email');
+                const unsubscribeEmail = document.getElementById('unsubscribeEmail');
+                
+                [subscribeEmail, unsubscribeEmail].forEach(input => {
+                    if (input) {
+                        input.addEventListener('input', function() {
+                            const email = this.value.trim();
+                            if (email && !isValidEmail(email)) {
+                                this.style.borderColor = '#ef4444';
+                            } else {
+                                this.style.borderColor = '';
+                            }
+                        });
+                    }
+                });
+            }
+            
+            // Initialize email validation
+            setupEmailValidation();
+            
+            // API helper functions
+            async function apiCall(endpoint, method = 'GET', body = null) {
+                const url = `${API_BASE_URL}${endpoint}`;
+                const options = {
+                    method: method,
+                    mode: 'cors',
+                    credentials: 'omit',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    }
+                };
+                
+                if (body) {
+                    options.body = JSON.stringify(body);
+                }
+                
+                console.log(`Making API call to: ${url}`);
+                console.log('Request options:', options);
+                
+                try {
+                    const response = await fetch(url, options);
+                    console.log('Response status:', response.status);
+                    console.log('Response headers:', response.headers);
+                    
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        console.error('API Error Response:', errorData);
+                        throw new Error(errorData.detail || errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log('API Response data:', data);
+                    return data;
+                } catch (error) {
+                    console.error('API Error:', error);
+                    console.error('Error name:', error.name);
+                    console.error('Error message:', error.message);
+                    throw error;
+                }
+            }
+
+            // Handle subscribe form submission
+            async function handleSubscribe(e) {
+                console.log('Subscribe form submitted!');
+                e.preventDefault();
+                console.log('Default prevented');
+                
+                // ALERT TEST - This should show immediately
+                alert('Subscribe form submitted!');
+                
+                // Prevent duplicate submissions
+                if (e.target.dataset.submitting === 'true') {
+                    console.log('Already submitting, returning');
+                    return;
+                }
+                
+                const email = document.getElementById('email').value.trim();
+                const submitButton = e.target.querySelector('button[type="submit"]');
+                
+                // Show immediate feedback that the form was submitted
+                showMessage('subscribeMessage', '📬 Processing your subscription...', 'success');
+                
+                // Basic email validation
+                if (!email || !isValidEmail(email)) {
+                    showMessage('subscribeMessage', '❌ Please enter a valid email address.', 'error');
+                    return;
+                }
+                
+                // Disable button and show loading state
+                e.target.dataset.submitting = 'true';
+                submitButton.disabled = true;
+                submitButton.textContent = '📬 Subscribing...';
+                
+                try {
+                    // Create subscription using the correct endpoint
+                    const result = await apiCall('/subscriptions/subscribe', 'POST', {
+                        email: email
+                    });
+
+                    if (result.success) {
+                        showMessage('subscribeMessage', '🎉 Successfully subscribed to YouNews! Please check your email for a confirmation link to complete your subscription.', 'success');
+                        e.target.reset();
+                    } else {
+                        showMessage('subscribeMessage', `❌ Error: ${result.message || 'Subscription failed'}`, 'error');
+                    }
+                } catch (error) {
+                    console.error('Subscription Error:', error);
+                    
+                    // Handle specific error cases
+                    if (error.message.includes('already subscribed') || error.message.includes('already exists')) {
+                        showMessage('subscribeMessage', '📧 This email is already subscribed to YouNews!', 'error');
+                    } else if (error.message.includes('invalid email')) {
+                        showMessage('subscribeMessage', '❌ Please enter a valid email address.', 'error');
+                    } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                        showMessage('subscribeMessage', '🌐 Network error. Please check your connection and try again.', 'error');
+                    } else if (error.message.includes('CORS')) {
+                        showMessage('subscribeMessage', '🔒 CORS error. Please contact support.', 'error');
+                    } else {
+                        showMessage('subscribeMessage', `❌ Error: ${error.message}`, 'error');
+                    }
+                } finally {
+                    // Re-enable button
+                    e.target.dataset.submitting = 'false';
+                    submitButton.disabled = false;
+                    submitButton.textContent = '📬 Subscribe to YouNews()';
+                }
+            }
+
+            // Handle unsubscribe form submission
+            async function handleUnsubscribe(e) {
+                e.preventDefault();
+                
+                // ALERT TEST - This should show immediately
+                alert('Unsubscribe form submitted!');
+                
+                // Prevent duplicate submissions
+                if (e.target.dataset.submitting === 'true') {
+                    return;
+                }
+                
+                const email = document.getElementById('unsubscribeEmail').value.trim();
+                const submitButton = e.target.querySelector('button[type="submit"]');
+                
+                // Show immediate feedback that the form was submitted
+                showMessage('unsubscribeMessage', '📭 Processing your unsubscribe request...', 'success');
+                
+                // Basic email validation
+                if (!email || !isValidEmail(email)) {
+                    showMessage('unsubscribeMessage', '❌ Please enter a valid email address.', 'error');
+                    return;
+                }
+                
+                // Disable button and show loading state
+                e.target.dataset.submitting = 'true';
+                submitButton.disabled = true;
+                submitButton.textContent = '📭 Unsubscribing...';
+                
+                try {
+                    // First, get the subscription ARN for the email
+                    const subscription = await apiCall(`/subscriptions/${email}`, 'GET');
+                    
+                    if (!subscription || !subscription.subscription_arn) {
+                        showMessage('unsubscribeMessage', '📭 Email not found in our subscription list.', 'error');
+                        return;
+                    }
+                    
+                    // Then unsubscribe using the subscription ARN
+                    const result = await apiCall('/subscriptions/unsubscribe', 'POST', {
+                        subscription_arn: subscription.subscription_arn
+                    });
+
+                    if (result.success) {
+                        showMessage('unsubscribeMessage', '📭 Successfully unsubscribed from YouNews. You will no longer receive daily updates.', 'success');
+                        e.target.reset();
+                    } else {
+                        showMessage('unsubscribeMessage', `❌ Error: ${result.message || 'Unsubscribe failed'}`, 'error');
+                    }
+                } catch (error) {
+                    console.error('Unsubscribe Error:', error);
+                    if (error.message.includes('404') || error.message.includes('not found')) {
+                        showMessage('unsubscribeMessage', '📭 Email not found in our subscription list.', 'error');
+                    } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                        showMessage('unsubscribeMessage', '🌐 Network error. Please check your connection and try again.', 'error');
+                    } else if (error.message.includes('CORS')) {
+                        showMessage('unsubscribeMessage', '🔒 CORS error. Please contact support.', 'error');
+                    } else {
+                        showMessage('unsubscribeMessage', `❌ Error: ${error.message}`, 'error');
+                    }
+                } finally {
+                    // Re-enable button
+                    e.target.dataset.submitting = 'false';
+                    submitButton.disabled = false;
+                    submitButton.textContent = '📭 Unsubscribe()';
+                }
+            }
+
+            function showMessage(elementId, message, type) {
+                const element = document.getElementById(elementId);
+                element.innerHTML = `<div class="${type === 'success' ? 'success-message' : 'error-message'}">${message}</div>`;
+                
+                // Clear message after 5 seconds
+                setTimeout(() => {
+                    element.innerHTML = '';
+                }, 5000);
+            }
+            
+            // Setup form handlers after all functions are defined
+            console.log('Setting up form handlers...');
+            
+            // Subscribe form
+            const subscribeForm = document.getElementById('subscribeForm');
+            console.log('Subscribe form element:', subscribeForm);
+            if (subscribeForm) {
+                console.log('Subscribe form found, adding listener');
+                subscribeForm.addEventListener('submit', handleSubscribe);
+            } else {
+                console.error('Subscribe form not found');
+            }
+            
+            // Unsubscribe form
+            const unsubscribeForm = document.getElementById('unsubscribeForm');
+            console.log('Unsubscribe form element:', unsubscribeForm);
+            if (unsubscribeForm) {
+                console.log('Unsubscribe form found, adding listener');
+                unsubscribeForm.addEventListener('submit', handleUnsubscribe);
+            } else {
+                console.error('Unsubscribe form not found');
+            }
+            
+            // Also try setting up after a short delay as fallback
+            setTimeout(() => {
+                console.log('Fallback: Setting up form handlers...');
+                const subscribeFormRetry = document.getElementById('subscribeForm');
+                const unsubscribeFormRetry = document.getElementById('unsubscribeForm');
+                
+                if (subscribeFormRetry && !subscribeFormRetry.hasAttribute('data-listener-added')) {
+                    console.log('Fallback: Subscribe form found, adding listener');
+                    subscribeFormRetry.setAttribute('data-listener-added', 'true');
+                    subscribeFormRetry.addEventListener('submit', handleSubscribe);
+                }
+                
+                if (unsubscribeFormRetry && !unsubscribeFormRetry.hasAttribute('data-listener-added')) {
+                    console.log('Fallback: Unsubscribe form found, adding listener');
+                    unsubscribeFormRetry.setAttribute('data-listener-added', 'true');
+                    unsubscribeFormRetry.addEventListener('submit', handleUnsubscribe);
+                }
+            }, 100);
+            
+            // Add click handlers to buttons as backup
+            setTimeout(() => {
+                console.log('Adding backup click handlers...');
+                const subscribeButton = document.querySelector('#subscribeForm button[type="submit"]');
+                const unsubscribeButton = document.querySelector('#unsubscribeForm button[type="submit"]');
+                
+                if (subscribeButton) {
+                    console.log('Adding click handler to subscribe button');
+                    subscribeButton.addEventListener('click', (e) => {
+                        console.log('Subscribe button clicked!');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const email = document.getElementById('email').value.trim();
+                        if (email && isValidEmail(email)) {
+                            console.log('Calling handleSubscribe from button click');
+                            handleSubscribe({ 
+                                preventDefault: () => {}, 
+                                target: document.getElementById('subscribeForm') 
+                            });
+                        }
+                    });
+                }
+                
+                if (unsubscribeButton) {
+                    console.log('Adding click handler to unsubscribe button');
+                    unsubscribeButton.addEventListener('click', (e) => {
+                        console.log('Unsubscribe button clicked!');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const email = document.getElementById('unsubscribeEmail').value.trim();
+                        if (email && isValidEmail(email)) {
+                            console.log('Calling handleUnsubscribe from button click');
+                            handleUnsubscribe({ 
+                                preventDefault: () => {}, 
+                                target: document.getElementById('unsubscribeForm') 
+                            });
+                        }
+                    });
+                }
+            }, 200);
+        });
+    </script>
+</body>
+</html>
