@@ -20,6 +20,11 @@ Engine/reports/**
 Socials/
 Socials/**
 
+# Environment files
+**/.env
+**/.env.*
+
+
 
 # Node/JavaScript
 node_modules/
