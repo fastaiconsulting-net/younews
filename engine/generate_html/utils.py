@@ -26,6 +26,11 @@ def generate_index_html(
         'src="https://younews-reports.s3.eu-west-2.amazonaws.com/2025%3A08%3A15-15%3A16%3A49/news-report.html"',
         f'src="{most_recent_link}"'
     )
+    # Add this line to update the header onclick handler
+    html_content = html_content.replace(
+        "onclick=\"window.open('https://younews-reports.s3.eu-west-2.amazonaws.com/2025%3A08%3A15-15%3A16%3A49/news-report.html', '_blank')\"",
+        f"onclick=\"window.open('{most_recent_link}', '_blank')\""
+    )
 
     # Generate HTML for all articles
     articles_html = ""
