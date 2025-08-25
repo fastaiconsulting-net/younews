@@ -15,6 +15,9 @@ topics:
 model: "gpt-4.1-mini"
 
 output:
+  # lambda
+  # root: "/tmp/reports"
+  # local
   root: "reports"
 
 img:

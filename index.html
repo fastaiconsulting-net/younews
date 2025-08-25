@@ -90,43 +90,116 @@
         }
 
         .todays-news-section {
-            margin: 2rem 0 4rem 0;
+            margin: 3rem 0 5rem 0;
             background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border: 2px solid var(--accent-purple);
+            border-radius: 20px;
             overflow: hidden;
             position: relative;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+            transform: scale(1.02);
         }
 
         .todays-news-header {
             background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
-            padding: 1.5rem 2rem;
+            padding: 2rem 2.5rem;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .todays-news-header::after {
+            content: '→';
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .todays-news-header:hover::after {
+            right: 1.5rem;
+            color: rgba(0, 0, 0, 0.9);
+        }
+
+        .todays-news-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .todays-news-header:hover::before {
+            left: 100%;
+        }
+
+        .todays-news-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.3);
         }
 
         .todays-news-title {
             color: #000;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
             margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .todays-news-title::after {
+            content: ' 🔗';
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .todays-news-header:hover .todays-news-title::after {
+            opacity: 1;
         }
 
         .todays-news-subtitle {
             color: rgba(0, 0, 0, 0.8);
             font-size: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .todays-news-subtitle::after {
+            content: ' (Click to read)';
+            font-size: 0.9rem;
+            font-style: italic;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .todays-news-header:hover .todays-news-subtitle::after {
+            opacity: 1;
         }
 
         .todays-news-content {
-            padding: 2rem;
-            min-height: 400px;
+            padding: 2.5rem;
+            min-height: 450px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.02), rgba(236, 72, 153, 0.02));
         }
 
         .todays-news-iframe {
             width: 100%;
-            height: 500px;
+            height: 550px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             background: var(--bg-dark);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .todays-news-placeholder {
@@ -422,23 +495,24 @@
             }
 
             .todays-news-section {
-                margin: 1rem 0 2rem 0;
+                margin: 1.5rem 0 3rem 0;
+                transform: scale(1);
             }
 
             .todays-news-header {
-                padding: 1rem 1.5rem;
+                padding: 1.5rem 2rem;
             }
 
             .todays-news-title {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
             }
 
             .todays-news-content {
-                padding: 1rem;
+                padding: 1.5rem;
             }
 
             .todays-news-iframe {
-                height: 400px;
+                height: 450px;
             }
 
             .hero-title {
@@ -465,14 +539,14 @@
         </header>
 
         <section class="todays-news-section">
-            <div class="todays-news-header">
+            <div class="todays-news-header" onclick="window.open('https://younews-reports.s3.eu-west-2.amazonaws.com/2025%3A08%3A15-15%3A16%3A49/news-report.html', '_blank')">
                 <h2 class="todays-news-title">📰 Today's Featured Story</h2>
                 <p class="todays-news-subtitle">August 25, 2025</p>
             </div>
             <div class="todays-news-content">
                 <!-- Option 1: Embed an HTML page -->
                 <iframe 
-                    src="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:25-08:44:05/news-report.html" 
+                    src="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:25-12:50:51/news-report.html" 
                     class="todays-news-iframe"
                     title="Today's News Story">
                 </iframe>
@@ -577,6 +651,11 @@
             </div>
 
             <div class="articles-grid">
+                <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:25-12:50:51/news-report.html" class="article-card">
+                    <div class="article-date">August 25, 2025</div>
+                    <div class="article-title">U.S. Federal Reserve Signals Potential Rate Cut Amid Economic Concerns</div>
+                </a>
+        
                 <a href="https://younews-reports.s3.eu-west-2.amazonaws.com/2025:08:25-08:44:05/news-report.html" class="article-card">
                     <div class="article-date">August 25, 2025</div>
                     <div class="article-title">Global Markets Rally Amid Anticipation of U.S. Rate Cuts and Nvidia Earnings</div>

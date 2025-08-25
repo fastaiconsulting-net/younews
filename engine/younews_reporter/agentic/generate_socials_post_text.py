@@ -9,7 +9,7 @@ class SocialsPostTextAgent(AgenticBase):
     def __init__(self, model: str, logger: logging.Logger = None):
         super().__init__(model, logger)
 
-    def generate_instructions(self, news_report: str):
+    def generate_instructions(self, news_report: str, link: str = "https://fastaiconsulting-net.github.io/younews/"):
         return f"""
             You are a skilled social media copywriter.
 
@@ -20,7 +20,8 @@ class SocialsPostTextAgent(AgenticBase):
             - Include 2–3 relevant hashtags (e.g., #breakingnews)
             - Optionally include 1 tasteful emoji for tone
             - Avoid clickbait. Be clear, factual, and complete in meaning.
-            - Format as plain text only — no markdown, no section labels
+            - Format as plain text only — no markdown, no section labels.
+            - End the report with a link to the full report.
 
             Think of this as a 1-paragraph executive summary that also works as a post.
 
@@ -30,8 +31,11 @@ class SocialsPostTextAgent(AgenticBase):
             \"\"\"
 
             ### Output:
-            Headline — [>younews @ fastaiconsulting]
             <caption>
+
+            🔗👉 Get the full report: {link}
+
+            <hashtags>
         """
 
     def run(self, news_report: str, link: str = None):
