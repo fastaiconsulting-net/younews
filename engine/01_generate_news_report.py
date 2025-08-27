@@ -1,6 +1,6 @@
 from younews_reporter.agentic.news_reporter import NewsReportAgent
 from younews_reporter.agentic.generate_socials_post_text import SocialsPostTextAgent
-from younews_reporter.agentic.generate_news_image import ImageGeneratorAgent
+from younews_reporter.agentic.generate_news_image import ImageGeneratorAgent, ImagePromptCleaner
 from younews_reporter.agentic.generate_socials_post_text import SocialsPostTextAgent
 from younews_reporter.utils import setup_logger, extract_main_title
 import os
@@ -74,8 +74,11 @@ if __name__ == "__main__":
         region_name=os.getenv('AWS_REGION')
     )
 
+    # perhaps necesssary if runnning in isolation - for convenience
+    # import dotenv
+    # dotenv.load_dotenv('../.env')
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
+   
     logger.info("> Starting Younews Daily Report")
     # generate news report
     agent = NewsReportAgent(model=MODEL)
@@ -85,9 +88,24 @@ if __name__ == "__main__":
 
     # generate image
     if GENERATE_IMAGE:
-        agent = ImageGeneratorAgent(model=MODEL)
-        image_base64 = agent.run(report_txt, RESOLUTION)
-        save_image(image_base64, image_path, logger)
+        try:
+            # if the prompt violates openai's content policy, the image will not be generated
+            agent = ImageGeneratorAgent(model=MODEL)
+            image_base64 = agent.run(report_txt, RESOLUTION)
+            save_image(image_base64, image_path, logger)
+        except Exception:
+            # clean up report and try again
+            try:
+                logger.info("> Prompt violated openai's content policy, cleaning up and trying again...")
+                agentCleaner = ImagePromptCleaner(model=MODEL)
+                report_txt = agentCleaner.run(report_txt)
+                image_base64 = agent.run(report_txt, RESOLUTION)
+                save_image(image_base64, image_path, logger)
+            except Exception as e:
+                logger.error(f"> Error generating image: {e}")
+                logger.error("> Skipping image generation")
+                image_path = None
+                exit()
 
     if GENERATE_AUDIO:
         script = AudioScript.generate_audio_script(client, main_title, report_txt, SCRIPT_MODEL)

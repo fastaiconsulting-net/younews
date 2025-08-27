@@ -42,3 +42,30 @@ class ImageGeneratorAgent(AgenticBase):
         else:
             self.logger.error('no image data found')
             return None
+
+
+class ImagePromptCleaner(AgenticBase):
+    def __init__(self, model: str, logger: logging.Logger = None):
+        super().__init__(model, logger)
+
+    def generate_prompt(self, news_report: str):
+        return f"""
+        I have this news script, but it violates openai's content policy.
+        Please clean it up and make it suitable for image generation.
+        Try to keep the original meaning and context of the news report.
+        Do not change the content of the news report.
+        Do not add any additional information.
+        Simply remove the parts that violate openai's content policy.
+
+
+        ### News Report:
+        {news_report}
+        """
+
+    def run(self, news_report: str):
+        prompt = self.generate_prompt(news_report)
+        response = self.client.responses.create(
+            model=self.model,
+            input=prompt,
+            )
+        return response

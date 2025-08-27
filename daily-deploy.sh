@@ -80,6 +80,10 @@ generate_news_and_push_to_s3() {
     echo "📰🔄 Generating today's news report & pushing to s3..."
     if [ "${GENERATE_NEWS}" = true ]; then
         python 01_generate_news_report.py
+        if [ $? -ne 0 ]; then
+            echo "❌ News generation failed! Exiting..."
+            exit 1
+        fi
     else
         echo "🦠 Skipping news generation..."
     fi
@@ -88,6 +92,10 @@ generate_news_and_push_to_s3() {
 generate_html() {
     echo "🌐 Building HTML documentation..."
     python 02_generate_home_page_html.py
+    if [ $? -ne 0 ]; then
+        echo "❌ HTML generation failed! Exiting..."
+        exit 1
+    fi
 }
 
 push_to_github() {
@@ -96,6 +104,10 @@ push_to_github() {
     git add .
     git commit -m "Daily deployment $(date +%Y:%m:%d-%H:%M:%S)"
     git push
+    if [ $? -ne 0 ]; then
+        echo "❌ Git push failed! Exiting..."
+        exit 1
+    fi
 
 }
 
