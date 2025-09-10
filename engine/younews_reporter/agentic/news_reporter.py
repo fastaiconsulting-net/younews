@@ -19,7 +19,7 @@ def generate_instructions(
     
     # Handle topic formatting
     if not topics:
-        topic_instruction = "Cover the most significant global breaking news developments"
+        topic_instruction = "Cover the most significant global breaking news developments. The topic is not important, consider the economy, politics, technology, wars, and global events."
     elif len(topics) == 1:
         topic_instruction = f"Cover **only developments that happened on {today_str}** related to: **{topics[0]}**"
     else:
