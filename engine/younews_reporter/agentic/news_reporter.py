@@ -16,7 +16,7 @@ def generate_instructions(
     now = datetime.now(zoneinfo.ZoneInfo(tz))
     today_str = now.strftime("%Y-%m-%d")
     now_str = now.strftime("%Y-%m-%d %H:%M %Z")
-    
+
     # Handle topic formatting
     if not topics:
         topic_instruction = "Cover the most significant global breaking news developments. The topic is not important, consider the economy, politics, technology, wars, and global events."
